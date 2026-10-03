@@ -4,9 +4,13 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "fonts": "node scripts/fonts.mjs",
+    "predev": "npm run fonts",
     "dev": "astro dev",
+    "prebuild": "npm run fonts",
     "build": "astro build",
     "preview": "astro preview",
+    "precheck": "npm run fonts",
     "check": "astro check"
   },
   "dependencies": {

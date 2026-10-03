@@ -4,9 +4,12 @@ Astro で構築した静的な個人ポートフォリオサイト。日英 2 �
 
 - データ（プロフィール・論文・特許）は `src/data/*.yaml` に書く。スキーマ違反があるとビルドが失敗する。
 - UI の文言は `src/i18n/ja.ts` / `src/i18n/en.ts` にある。
+- 書体は Inter（欧文）/ Noto Sans JP（和文）/ JetBrains Mono（数字・コードのみ）。
 - 外部サービスや解析タグは使わず、フォントも自己ホストしている（`@fontsource`）。
 
 ## ローカルで起動する
+
+`npm run dev` / `build` / `check` の前には `scripts/fonts.mjs` が自動で走り、サイトのテキストで使う Noto Sans JP の分割だけを `src/styles/fonts.generated.css` に書き出す（YAML や文言を変えても自動で追従する）。
 
 Node.js 22.12 以上が必要。
 
@@ -87,6 +90,7 @@ npm run check      # 型チェック（astro check）
 ## ディレクトリ構成
 
 ```
+scripts/fonts.mjs    # 使う分割だけの Noto Sans JP @font-face を生成（build 前に自動実行）
 src/
   data/            # profile.yaml / publications.yaml / patents.yaml
   content.config.ts  # コレクション定義と zod スキーマ
@@ -94,7 +98,7 @@ src/
   components/      # Header / Hero / Section / 各リスト / About / Contact / Footer / Portfolio
   layouts/         # Base.astro（head・OGP・hreflang・JSON-LD・フォント）
   pages/           # index.astro（言語振り分け）/ ja/ / en/
-  styles/          # global.css（デザイントークン・リセット）
+  styles/          # global.css（デザイントークン・リセット）/ fonts.generated.css（自動生成）
 public/            # favicon.svg / og.png
 .github/workflows/deploy.yml
 ```
