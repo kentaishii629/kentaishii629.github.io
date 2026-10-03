@@ -5,7 +5,7 @@ export const ja = {
   ogLocale: 'ja_JP',
   meta: {
     description:
-      '石井 健太（株式会社日立製作所 研究開発グループ 研究員 / 東京大学大学院 博士課程）の研究者ポートフォリオ。人流分析、交通ネットワークモデリング、行動パラメータ推定、因果推論、交通への機械学習応用に関する研究・論文・特許を掲載。',
+      '石井 健太（株式会社日立製作所 研究開発グループ 研究員 / 東京大学大学院 博士課程）の研究者ポートフォリオ。人流分析、交通ネットワークモデリング、行動パラメータ推定、因果推論、交通への機械学習応用に関する論文・発表、受賞、特許、事業、展示を掲載。',
   },
   skipToContent: '本文へスキップ',
   langSwitch: {
@@ -17,13 +17,16 @@ export const ja = {
   },
   hero: {
     scrollHint: '目次',
+    affiliation: '所属',
+    specialty: '専門分野',
+    history: '来歴',
   },
   sections: {
-    research: { number: '01', title: '研究テーマ' },
-    publications: { number: '02', title: '論文' },
+    publications: { number: '01', title: '論文・発表' },
+    awards: { number: '02', title: '受賞' },
     patents: { number: '03', title: '特許' },
-    exhibitions: { number: '04', title: '展示' },
-    about: { number: '05', title: '自己紹介' },
+    projects: { number: '04', title: '事業' },
+    exhibitions: { number: '05', title: '展示' },
     contact: { number: '06', title: '連絡先' },
   },
   publications: {
@@ -31,7 +34,8 @@ export const ja = {
     types: {
       all: 'すべて',
       journal: '論文誌',
-      conference: '国際会議・学会',
+      'intl-conference': '国際会議',
+      'domestic-conference': '国内学会',
       preprint: 'プレプリント',
       talk: '講演',
       other: 'その他',
@@ -42,28 +46,28 @@ export const ja = {
       arxiv: 'arXiv',
       url: 'ウェブページ',
     },
-    empty: '該当する論文はありません。',
+    empty: '該当する項目はありません。',
   },
   patents: {
     granted: '登録',
     pending: '出願中',
     number: '公開番号',
-    jurisdictions: '出願国',
-    priorityDate: '優先日',
-    filedDate: '出願日',
-    publishedDate: '公開日',
-    assignee: '出願人',
     inventors: '発明者',
     link: '特許情報',
+  },
+  awards: {
+    link: '受賞情報',
+  },
+  projects: {
+    period: '期間',
+    funder: '所管',
+    role: '担当',
   },
   exhibitions: {
     venue: '会場',
     period: '会期',
     role: '担当',
     link: '展示情報',
-  },
-  about: {
-    affiliation: '所属',
   },
   contact: {
     email: 'Email',

@@ -18,15 +18,10 @@ const dict = t(lang);
 const note = noteSource ? pick(noteSource, lang) : '';
 const noteLang = noteSource ? pickedLang(noteSource, lang) : lang;
 
-/** 詳細行（値があるものだけ）。 */
+/** 詳細行。コンパクトにするため公開番号だけを出す（出願国・日付・出願人は YAML に残すが表示しない）。 */
 function details(data: CollectionEntry<'patents'>['data']) {
   const rows: { label: string; value: string; lang?: Lang }[] = [];
   if (data.number) rows.push({ label: dict.patents.number, value: data.number });
-  if (data.jurisdictions?.length) rows.push({ label: dict.patents.jurisdictions, value: data.jurisdictions.join(', ') });
-  if (data.priorityDate) rows.push({ label: dict.patents.priorityDate, value: data.priorityDate });
-  if (data.filedDate) rows.push({ label: dict.patents.filedDate, value: data.filedDate });
-  if (data.publishedDate) rows.push({ label: dict.patents.publishedDate, value: data.publishedDate });
-  if (data.assignee) rows.push({ label: dict.patents.assignee, value: pick(data.assignee, lang), lang: pickedLang(data.assignee, lang) });
   return rows;
 }
 ---
@@ -96,12 +91,6 @@ function details(data: CollectionEntry<'patents'>['data']) {
 </ol>
 
 <style>
-  /* Stat strip: large mono figures with small labels */
-
-
-
-
-
   .note {
     font-size: 0.9375rem;
     line-height: 1.7;
@@ -141,7 +130,7 @@ function details(data: CollectionEntry<'patents'>['data']) {
   .year {
     font-size: 0.75rem;
     letter-spacing: 0.04em;
-    color: var(--color-muted);
+    color: var(--color-accent);
     padding-top: 0.35rem;
   }
 
@@ -173,9 +162,6 @@ function details(data: CollectionEntry<'patents'>['data']) {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     gap: 0.375rem var(--sp-3);
-    padding: 0.75rem 0;
-    border-top: 1px dashed var(--color-border);
-    border-bottom: 1px dashed var(--color-border);
     font-size: 0.8125rem;
     line-height: 1.5;
   }
@@ -211,11 +197,6 @@ function details(data: CollectionEntry<'patents'>['data']) {
   }
 
   @media (min-width: 768px) {
-
-    .stat dd {
-      font-size: 2.5rem;
-    }
-
     .patents > li {
       grid-template-columns: var(--year-col) minmax(0, 1fr);
       padding-block: var(--sp-3) var(--sp-4);

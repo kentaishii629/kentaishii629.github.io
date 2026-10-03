@@ -56,15 +56,22 @@ const profile = defineCollection({
   loader: glob({ pattern: 'profile.yaml', base: './src/data' }),
   schema: z.strictObject({
     name: localized,
-    title: localized,
-    affiliations: z.array(localized).default([]),
-    tagline: localized.optional(),
-    bio: localized,
-    research: z
+    /** 専門分野。 */
+    specialty: localized,
+    /** 所属（役職を含む表示用の文言）。org は構造化データ（JSON-LD）に出す組織名。 */
+    affiliations: z
+      .array(
+        z
+          .strictObject({ ja: z.string().optional(), en: z.string().optional(), org: localized.optional() })
+          .refine((v) => Boolean(v.ja?.trim() || v.en?.trim()), { message: 'ja か en のどちらか一方は必須です' }),
+      )
+      .default([]),
+    /** 来歴（記載順に表示）。 */
+    history: z
       .array(
         z.strictObject({
-          title: localized,
-          summary: localized,
+          year: z.number().int().min(1900).max(2100),
+          text: localized,
         }),
       )
       .default([]),
@@ -76,7 +83,15 @@ const profile = defineCollection({
         github: urlOrEmpty,
       })
       .prefault({}),
-    email: z.union([z.literal(''), z.email()]).default(''),
+    /** 連絡先メール（複数可）。label は所属などの区別。 */
+    emails: z
+      .array(
+        z.strictObject({
+          label: localized.optional(),
+          address: z.email(),
+        }),
+      )
+      .default([]),
     /** 特許セクションの冒頭に添える一文（出願人・掲載方針など）。 */
     patentNote: localized.optional(),
   }),
@@ -90,9 +105,11 @@ const publications = defineCollection({
     order: z.number().int().nonnegative(),
     problem: noProblem,
     year: z.number().int().min(1900).max(2100),
-    type: z.enum(['journal', 'conference', 'preprint', 'talk', 'other']),
+    type: z.enum(['journal', 'intl-conference', 'domestic-conference', 'preprint', 'talk', 'other']),
     title: z.strictObject({ ja: z.string().optional(), en: z.string() }),
     authors: z.array(z.string().min(1)).min(1),
+    /** 英語ページ用の著者名（authors が日本語表記のときに書く）。 */
+    authorsEn: z.array(z.string().min(1)).min(1).optional(),
     venue: z.strictObject({ ja: z.string().optional(), en: z.string() }),
     links: z
       .strictObject({
@@ -132,7 +149,7 @@ const patents = defineCollection({
 
 const exhibitions = defineCollection({
   loader: file('./src/data/exhibitions.yaml', { parser: orderedYamlList }),
-  schema: z.strictObject({
+  schema: ({ image }) => z.strictObject({
     id: z.string(),
     /** YAML の記載順（parser が自動付与）。 */
     order: z.number().int().nonnegative(),
@@ -147,8 +164,54 @@ const exhibitions = defineCollection({
     /** 担当した展示物・役割。 */
     role: localized.optional(),
     summary: localized.optional(),
+    /** 展示物の画像（このファイルからの相対パス。例: ../assets/exhibitions/foo.jpg）。 */
+    image: image().optional(),
+    /** 画像の代替テキスト。 */
+    imageAlt: localized.optional(),
+    /** 画像に添えるキャプション。 */
+    imageCaption: localized.optional(),
     link: z.url().optional(),
   }),
 });
 
-export const collections = { profile, publications, patents, exhibitions };
+const awards = defineCollection({
+  loader: file('./src/data/awards.yaml', { parser: orderedYamlList }),
+  schema: z.strictObject({
+    id: z.string(),
+    /** YAML の記載順（parser が自動付与）。 */
+    order: z.number().int().nonnegative(),
+    problem: noProblem,
+    year: z.number().int().min(1900).max(2100),
+    /** 何で受賞したか（会議・コンテストなど）。見出しになる。 */
+    event: z.strictObject({ ja: z.string(), en: z.string().optional() }),
+    /** 賞の名称・順位。 */
+    award: localized,
+    /** 対象（論文・提案の題名など）。 */
+    subject: localized.optional(),
+    link: z.url().optional(),
+  }),
+});
+
+const projects = defineCollection({
+  loader: file('./src/data/projects.yaml', { parser: orderedYamlList }),
+  schema: z.strictObject({
+    id: z.string(),
+    /** YAML の記載順（parser が自動付与）。 */
+    order: z.number().int().nonnegative(),
+    problem: noProblem,
+    /** 並び順に使う年（参加開始年）。 */
+    year: z.number().int().min(1900).max(2100),
+    /** 事業の名称。 */
+    title: z.strictObject({ ja: z.string(), en: z.string().optional() }),
+    /** 期間（自由記述）。 */
+    period: localized.optional(),
+    /** 所管・委託元。 */
+    funder: localized.optional(),
+    /** 担当した役割。 */
+    role: localized.optional(),
+    summary: localized.optional(),
+    links: z.array(z.strictObject({ label: localized, url: z.url() })).default([]),
+  }),
+});
+
+export const collections = { profile, publications, patents, exhibitions, awards, projects };

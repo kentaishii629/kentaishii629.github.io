@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import type { Lang } from '../i18n/utils';
 import { t, pick, pickedLang } from '../i18n/utils';
 import type { CollectionEntry } from 'astro:content';
@@ -32,6 +33,7 @@ function details(data: CollectionEntry<'exhibitions'>['data']) {
       const titleLang = pickedLang(data.title, lang);
       const rows = details(data);
       const summaryLang = data.summary ? pickedLang(data.summary, lang) : lang;
+      const captionLang = data.imageCaption ? pickedLang(data.imageCaption, lang) : lang;
       return (
         <li>
           <span class="mono year">{data.year ?? ''}</span>
@@ -51,6 +53,23 @@ function details(data: CollectionEntry<'exhibitions'>['data']) {
                   </>
                 ))}
               </dl>
+            )}
+            {data.image && (
+              <figure class="figure">
+                <Image
+                  src={data.image}
+                  alt={data.imageAlt ? pick(data.imageAlt, lang) : ''}
+                  width={1200}
+                  widths={[480, 800, 1200]}
+                  sizes="(min-width: 768px) 720px, 100vw"
+                  loading="lazy"
+                />
+                {data.imageCaption && (
+                  <figcaption class="muted" lang={captionLang !== lang ? captionLang : undefined}>
+                    {pick(data.imageCaption, lang)}
+                  </figcaption>
+                )}
+              </figure>
             )}
             {data.link && (
               <p class="links">
@@ -81,7 +100,7 @@ function details(data: CollectionEntry<'exhibitions'>['data']) {
 
   .year {
     font-size: 0.8125rem;
-    color: var(--color-muted);
+    color: var(--color-accent);
     padding-top: 0.3rem;
   }
 
@@ -105,6 +124,25 @@ function details(data: CollectionEntry<'exhibitions'>['data']) {
 
   .details dd {
     margin: 0;
+  }
+
+  .figure {
+    margin: var(--sp-3) 0 0;
+    max-width: 45rem;
+  }
+
+  .figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: var(--hairline);
+    border-radius: var(--radius);
+  }
+
+  .figure figcaption {
+    margin-top: 0.5rem;
+    font-size: 0.8125rem;
+    line-height: 1.6;
   }
 
   .links {

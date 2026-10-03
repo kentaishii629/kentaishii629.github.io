@@ -1,0 +1,39 @@
+# 受賞リスト。年（year）の降順に自動で並ぶ（同じ年の中はこのファイルの記載順）。
+# 見出しは「event（何で: 会議・コンテスト） + award（何の賞か）」の 1 行。subject（対象の論文・提案）はその下に添える。
+# event.ja・award・year 以外は任意。
+- id: itsc-2025-best-paper-nomination
+  year: 2025
+  event:
+    ja: IEEE ITSC 2025
+    en: IEEE ITSC 2025
+  award:
+    ja: Best Paper Award Nomination
+    en: Best Paper Award Nomination
+  subject:
+    ja: 「Unsupervised Travel Mode Identification with Sparse Location Data」
+    en: "\"Unsupervised Travel Mode Identification with Sparse Location Data\""
+  link: https://ieee-itsc.org/2025/program/awards/
+- id: expressway-dx-idea-contest-2
+  year: 2024 # 2024年度
+  event:
+    ja: 第2回高速道路DXアイデアコンテスト
+    en: 2nd Expressway DX Idea Contest # 仮訳
+  award:
+    ja: アイデア部門 最優秀賞
+    en: Grand Prize, Idea Category # 仮訳
+  subject:
+    ja: 「安全な保守作業計画のための工事規制区間安全性評価技術の提案」
+    en: "\"A Safety Evaluation Technique for Road Work Zones for Safe Maintenance Planning\"" # 仮訳
+  link: https://innovative-expressway-consortium.jp/expressway-dx/result02.html
+- id: behavior-modeling-summer-school-2019
+  year: 2019
+  event:
+    ja: 第18回行動モデル夏の学校2019
+    en: Behavior Modeling in Transportation Networks 2019 (The 18th Summer course)
+  award:
+    ja: 総合 1位（東京大学Aチーム）
+    en: 1st Place Overall (Team University of Tokyo A)
+  subject:
+    ja: 「マルコフ決定過程に基づく経路選択行動のパラメータ推定—自動車・自転車交通施策の検討—」
+    en: "\"Parameter Estimation of Route Choice Behavior Based on a Markov Decision Process: Examining Car and Bicycle Traffic Policies\"" # 仮訳
+  link: https://www.bin.t.u-tokyo.ac.jp/model19/reportindex

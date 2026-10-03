@@ -1,86 +1,166 @@
 # 論文リスト。年の降順に自動で並ぶ（同じ年の中はこのファイルの記載順）。
-# type: journal | conference | preprint | talk | other
+# type: journal | intl-conference | domestic-conference | preprint | talk | other
 # authors に含まれる本人名（profile.yaml の name）は自動で太字になる。
-# 【ダミー】/[Dummy] と付いた論文はダミーデータ（Google Scholar の内容に差し替える）。講演 2 件は実データ。
-- id: dummy-2025-journal
-  year: 2025
-  type: journal
-  title:
-    ja: 【ダミー】都市内歩行者流動の時空間構造推定に関する研究
-    en: "[Dummy] Estimating the Spatio-temporal Structure of Urban Pedestrian Flows"
-  authors: [Kenta Ishii, Taro Yamada, Hanako Suzuki]
-  venue:
-    ja: ダミー都市解析学会誌, Vol. 12, No. 3, pp. 1-12
-    en: Dummy Journal of Urban Analytics, Vol. 12, No. 3, pp. 1-12
-  links:
-    doi: https://doi.org/10.0000/dummy.2025.001
-  note: { ja: 論文賞（ダミー）, en: Best Paper Award (dummy) }
-- id: dummy-2025-conf
-  year: 2025
-  type: conference
-  title:
-    en: "[Dummy] Causal Effects of Transit Service Changes on Route Choice"
-  authors: [Kenta Ishii, Jiro Sato]
-  venue:
-    en: Proceedings of the Dummy Conference on Transportation Research (DCTR 2025)
-  links:
-    pdf: https://example.com/dummy-2025-conf.pdf
-- id: dummy-2024-preprint
-  year: 2024
+# authors が日本語表記のときは authorsEn にローマ字表記を書く（英語ページで使う）。
+# 出典: Google Scholar（https://scholar.google.co.jp/citations?user=_04yi2cAAAAJ）。DOI・巻号・ページは Crossref で確認。
+# 「仮訳」と付記した英語タイトルは公式の英題が確認できなかったための仮訳（要確認）。
+- id: ishii-2026-ssrn-disclosure
+  year: 2026
   type: preprint
   title:
-    en: "[Dummy] Interpretable Machine Learning for Travel Demand Forecasting"
-  authors: [Kenta Ishii]
+    en: "An ex-ante information disclosure mechanism for transit-operator coordination: the step before gain allocation"
+  authors: [Kenta Ishii, Rieko Otsuka]
   venue:
-    en: arXiv preprint (dummy)
+    en: SSRN preprint
   links:
-    arxiv: https://arxiv.org/abs/0000.00000
-- id: dummy-2024-journal
+    doi: https://doi.org/10.2139/ssrn.7324158
+- id: ishii-2025-itsc
+  year: 2025
+  type: intl-conference
+  title:
+    en: Unsupervised Travel Mode Identification with Sparse Location Data
+  authors: [Kenta Ishii, So Fumiyama, Rieko Otsuka]
+  venue:
+    en: 2025 IEEE 28th International Conference on Intelligent Transportation Systems (ITSC), pp. 323-324
+  links:
+    doi: https://doi.org/10.1109/ITSC60802.2025.11423119
+  note: { ja: Best Paper Award Nomination, en: Best Paper Award Nomination }
+- id: ishii-2024-cpij
   year: 2024
   type: journal
   title:
-    ja: 【ダミー】離散選択モデルによる経路選択パラメータの推定
-    en: "[Dummy] Estimating Route Choice Parameters with Discrete Choice Models"
-  authors: [石井 健太, 山田 太郎]
+    ja: アウトカムに依存するサンプリングバイアスに着目した因果推論手法
+    en: Causal Inference with Outcome-Dependent Survey Weighted Data
+  authors: [石井 健太, 石井 朝規, 平松 義崇]
+  authorsEn: [Kenta Ishii, Tomoki Ishii, Yoshitaka Hiramatsu]
   venue:
-    ja: ダミー交通学会論文集, Vol. 8, pp. 100-110
-    en: Dummy Transactions on Transportation, Vol. 8, pp. 100-110
+    ja: 都市計画論文集, Vol. 59, No. 3, pp. 516-522
+    en: Journal of the City Planning Institute of Japan, Vol. 59, No. 3, pp. 516-522
   links:
-    doi: https://doi.org/10.0000/dummy.2024.002
-    url: https://example.com/dummy-2024-journal
-- id: dummy-2023-other
+    doi: https://doi.org/10.11361/journalcpij.59.516
+- id: ishii-2023-cpij
+  year: 2023
+  type: journal
+  title:
+    ja: 時間・場所に捉われない施策の計画支援に向けた時系列経路選択モデルの変分ベイズ推定
+    en: Variational Bayesian Inference for Time Series Route Choice Model for Evaluating Flexible Measures for Time and Location
+  authors: [石井 健太, 大塚 理恵子]
+  authorsEn: [Kenta Ishii, Rieko Otsuka]
+  venue:
+    ja: 都市計画論文集, Vol. 58, No. 3, pp. 1662-1669
+    en: Journal of the City Planning Institute of Japan, Vol. 58, No. 3, pp. 1662-1669
+  links:
+    doi: https://doi.org/10.11361/journalcpij.58.1662
+- id: ishii-2023-jsce68
+  year: 2023
+  type: domestic-conference
+  title:
+    ja: 情報提示施策に向けた活動経路の時空間クラスタリング
+    en: Spatio-temporal Clustering of Activity Paths for Information Provision Measures # 仮訳
+  authors: [石井 健太, 平松 義崇, 吉治 季恵]
+  authorsEn: [Kenta Ishii, Yoshitaka Hiramatsu, Kie Yoshiji]
+  venue:
+    ja: 第68回土木計画学研究発表会
+    en: 68th Conference on Infrastructure Planning and Management, JSCE
+- id: takada-2023-cybernetics-symposium
+  year: 2023
+  type: domestic-conference
+  title:
+    ja: "SF プロトタイピング手法を活用した保守業務の将来洞察: 現場の価値観と課題意識を起点とした働き方ビジョンの検討"
+    en: "Future Insights into Maintenance Work Using Sci-Fi Prototyping: Envisioning Work Styles Based on the Values and Concerns of Field Workers" # 仮訳
+  authors: [高田 将吾, 石井 健太, 伊藤 雅一, 伊藤 まみ果, 宮本 大輔, 佐上 一至]
+  authorsEn: [Shogo Takada, Kenta Ishii, Masakazu Ito, Mamika Ito, Daisuke Miyamoto, Kazushi Sagami]
+  venue:
+    ja: 鉄道サイバネ・シンポジウム論文集, Vol. 60, pp. 1-5
+    en: Proceedings of the Railway Cybernetics Symposium, Vol. 60, pp. 1-5
+- id: sagami-2023-cybernetics
   year: 2023
   type: other
   title:
-    ja: 【ダミー】人流データを用いた都市解析の実践
-    en: "[Dummy] Urban Analytics with Pedestrian Flow Data in Practice"
-  authors: [Kenta Ishii, Hanako Suzuki]
+    ja: SF プロトタイピング手法を活用した保守業務の将来洞察
+    en: Future Insights into Maintenance Work Using Sci-Fi Prototyping # 仮訳
+  authors: [佐上 一至, 宮本 大輔, 高田 将吾, 石井 健太, 伊藤 まみ果, 伊藤 雅一]
+  authorsEn: [Kazushi Sagami, Daisuke Miyamoto, Shogo Takada, Kenta Ishii, Mamika Ito, Masakazu Ito]
   venue:
-    ja: ダミー技術報告書
-    en: Dummy Technical Report
-  links: {}
-# --- 講演（実データ） ---
-- id: talk-2025-ism-spatial-stats
-  year: 2025
-  type: talk
-  # TODO: 講演タイトルを記載する
+    ja: "Cybernetics: quarterly report, Vol. 28, No. 4, pp. 34-39"
+    en: "Cybernetics: quarterly report, Vol. 28, No. 4, pp. 34-39"
+- id: furukawa-2023-hitachi-hyoron
+  year: 2023
+  type: other
   title:
-    ja: （講演タイトルは後日追記）
-    en: (Talk title to be added)
-  authors: [石井 健太]
+    ja: 経済価値と社会価値の双方を高める配電デジタルソリューションの将来像
+    en: Future Digital Solutions for Power Distribution that Enhance Economic and Social Value
+  authors: [古川 直広, 室 啓朗, 石井 健太, 楠瀬 信之, 中島 裕信, 村田 章]
+  authorsEn: [Naohiro Furukawa, Hiroaki Muro, Kenta Ishii, Nobuyuki Kusunose, Hironobu Nakajima, Akira Murata]
   venue:
-    ja: 応用空間統計ワークショップ, 2025年1月8日, 統計数理研究所
-    en: Applied Spatial Statistics Workshop, January 8, 2025, The Institute of Statistical Mathematics
-  note: { ja: 招待講演, en: Invited talk }
-- id: talk-2024-ohow
-  year: 2024
+    ja: 日立評論, Vol. 105, No. 3, pp. 341-345
+    en: "Hitachi Hyoron, Vol. 105, No. 3, pp. 341-345 (English edition: Hitachi Review, Vol. 72, No. 4)"
+- id: ogawa-2022-trb
+  year: 2022
+  type: intl-conference
+  title:
+    en: Manifold Learning Method with OD Matrix as Latent Variables and Surrogate Modeling for Pedestrian Network Design
+  authors: [Mizuki Ogawa, Eiji Hato, Kenta Ishii]
+  venue:
+    en: Transportation Research Board (TRB) 101st Annual Meeting, Washington, D.C., January 2022
+- id: ogawa-2021-cpij
+  year: 2021
+  type: journal
+  title:
+    ja: 起終点交通量を潜在変数とする多様体学習とネットワークデザインのための代理モデルの構築
+    en: Surrogate Modeling for Network Design and Manifold Learning for Route Choice Model and OD Matrix with Origin and Destination Data as Latent Variables
+  authors: [小川 瑞貴, 羽藤 英二, 石井 健太]
+  authorsEn: [Mizuki Ogawa, Eiji Hato, Kenta Ishii]
+  venue:
+    ja: 都市計画論文集, Vol. 56, No. 3, pp. 1351-1358
+    en: Journal of the City Planning Institute of Japan, Vol. 56, No. 3, pp. 1351-1358
+  links:
+    doi: https://doi.org/10.11361/journalcpij.56.1351
+- id: ishii-2019-cpij
+  year: 2019
+  type: journal
+  title:
+    ja: オイラー・ラグランジュ型観測に基づく経路選択モデルの情報量推定
+    en: Estimation of Route Choice Model with Euler - Lagrange Observation based on Information Theory
+  authors: [石井 健太, 山野 壱成, 羽藤 英二]
+  authorsEn: [Kenta Ishii, Issei Yamano, Eiji Hato]
+  venue:
+    ja: 都市計画論文集, Vol. 54, No. 3, pp. 726-733
+    en: Journal of the City Planning Institute of Japan, Vol. 54, No. 3, pp. 726-733
+  links:
+    doi: https://doi.org/10.11361/journalcpij.54.726
+- id: ishii-2019-jsce60
+  year: 2019
+  type: domestic-conference
+  title:
+    ja: 深層学習を導入したデータ同化による動画像からの複数物体追跡手法の構築
+    en: Multiple Object Tracking from Video by Data Assimilation Incorporating Deep Learning # 仮訳
+  authors: [石井 健太, 瀬尾 亨, 布施 孝志]
+  authorsEn: [Kenta Ishii, Toru Seo, Takashi Fuse]
+  venue:
+    ja: 第60回土木計画学研究発表会
+    en: 60th Conference on Infrastructure Planning and Management, JSCE
+# --- 講演 ---
+- id: talk-2026-ohow
+  year: 2026
   type: talk
   title:
     en: Ex-Ante Diagnosis of Prediction Reliability under Behavioral-Parameter Uncertainty in Stochastic User Equilibrium
   authors: [Kenta Ishii]
-  # TODO: セミナー名・開催日を確認する（https://ohow.iis.u-tokyo.ac.jp/archives/2024）
+  # 国際セミナーなので日本語ページでも英語表記にする（ja を省略すると en が使われる）
   venue:
-    ja: OHOW セミナー, 東京大学生産技術研究所
-    en: OHOW Seminar, Institute of Industrial Science, The University of Tokyo
+    en: 5th International Joint Student Seminar on "One Health, One World", August 26-28, 2026, Asian Institute of Technology, Thailand
   links:
     url: https://ohow.iis.u-tokyo.ac.jp/archives/2024
+- id: talk-2025-ism-spatial-stats
+  year: 2025
+  type: talk
+  title:
+    ja: スパースな軌跡データを用いた教師なし交通モード推定
+    en: Unsupervised Travel Mode Identification with Sparse Location Data
+  authors: [石井 健太]
+  authorsEn: [Kenta Ishii]
+  venue:
+    ja: 応用空間統計ワークショップ, 2025年1月8日, 統計数理研究所
+    en: Applied Spatial Statistics Workshop, January 8, 2025, The Institute of Statistical Mathematics
+  note: { ja: 招待講演, en: Invited talk }

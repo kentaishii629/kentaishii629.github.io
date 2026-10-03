@@ -12,24 +12,50 @@ interface Props {
 const { lang, profile } = Astro.props;
 const dict = t(lang);
 const name = pick(profile.name, lang);
-const title = pick(profile.title, lang);
+const specialty = { text: pick(profile.specialty, lang), lang: pickedLang(profile.specialty, lang) };
+const history = profile.history.map((h) => ({ year: h.year, text: pick(h.text, lang), lang: pickedLang(h.text, lang) }));
 const affiliations = profile.affiliations.map((a) => ({ text: pick(a, lang), lang: pickedLang(a, lang) }));
 ---
 
 <section class="hero" aria-labelledby="hero-name">
   <div class="container hero-inner">
     <div class="hero-main">
-      <p class="eyebrow label">{title}</p>
       <h1 id="hero-name">{name}</h1>
-      {
-        affiliations.length > 0 && (
-          <ul class="affiliations">
-            {affiliations.map((a) => (
-              <li lang={a.lang !== lang ? a.lang : undefined}>{a.text}</li>
-            ))}
-          </ul>
-        )
-      }
+      <dl class="facts">
+        {
+          affiliations.length > 0 && (
+            <>
+              <dt class="label">{dict.hero.affiliation}</dt>
+              <dd>
+                <ul>
+                  {affiliations.map((a) => (
+                    <li lang={a.lang !== lang ? a.lang : undefined}>{a.text}</li>
+                  ))}
+                </ul>
+              </dd>
+            </>
+          )
+        }
+        <dt class="label">{dict.hero.specialty}</dt>
+        <dd lang={specialty.lang !== lang ? specialty.lang : undefined}>{specialty.text}</dd>
+        {
+          history.length > 0 && (
+            <>
+              <dt class="label">{dict.hero.history}</dt>
+              <dd>
+                <ol class="history">
+                  {history.map((h) => (
+                    <li lang={h.lang !== lang ? h.lang : undefined}>
+                      <span class="mono history-year">{h.year}</span>
+                      <span>{h.text}</span>
+                    </li>
+                  ))}
+                </ol>
+              </dd>
+            </>
+          )
+        }
+      </dl>
     </div>
     <nav class="toc grid-aside" aria-label={dict.hero.scrollHint}>
       <p class="toc-label label" aria-hidden="true">{dict.hero.scrollHint}</p>
@@ -62,38 +88,40 @@ const affiliations = profile.affiliations.map((a) => ({ text: pick(a, lang), lan
     padding-block: var(--sp-2) var(--sp-6);
   }
 
-  .eyebrow {
-    margin-bottom: var(--sp-3);
-  }
-
   h1 {
     margin-bottom: var(--sp-4);
   }
 
-  .affiliations {
+  .facts {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.125rem var(--sp-3);
     font-size: 0.8125rem;
     letter-spacing: 0.01em;
     line-height: 1.7;
     color: var(--color-muted);
-    word-break: keep-all;
-    overflow-wrap: anywhere;
   }
 
-  .affiliations li {
-    padding-left: 1.75em;
-    text-indent: -1.75em;
+  .facts dt {
+    padding-top: 0.15rem;
   }
 
-  .affiliations li::before {
-    content: '\2014';
-    display: inline-block;
-    width: 1.75em;
-    text-indent: 0;
+  .facts dd {
+    margin: 0 0 0.75rem;
+  }
+
+  .facts dd:last-child {
+    margin-bottom: 0;
+  }
+
+  .history li {
+    display: grid;
+    grid-template-columns: 3rem minmax(0, 1fr);
+  }
+
+  .history-year {
+    font-size: 0.75rem;
     color: var(--color-faint);
-  }
-
-  .affiliations li + li {
-    margin-top: 0.125rem;
   }
 
   .toc {
@@ -155,12 +183,16 @@ const affiliations = profile.affiliations.map((a) => ({ text: pick(a, lang), lan
       padding-block: var(--sp-4) var(--sp-10);
     }
 
-    .eyebrow {
-      margin-bottom: var(--sp-5);
-    }
-
     h1 {
       margin-bottom: var(--sp-6);
+    }
+
+    .facts {
+      grid-template-columns: 6rem minmax(0, 1fr);
+    }
+
+    .facts dd {
+      margin-bottom: 0.5rem;
     }
 
     .toc {

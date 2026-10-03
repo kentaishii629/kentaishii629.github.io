@@ -2,15 +2,13 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-// TODO: <username> を GitHub のユーザー名に置き換える（リポジトリの所有者から "kentaishii629" と推定して設定済み）。
+// リポジトリ名は kentaishii629.github.io。公開 URL はドメイン直下（https://kentaishii629.github.io/）なので base は不要。
 const site = 'https://kentaishii629.github.io';
 
 export default defineConfig({
   site,
-  // リポジトリ名が <username>.github.io ではない場合（例: my_portfolio）は、
-  // 公開 URL が https://<username>.github.io/my_portfolio/ になるため base を設定する:
-  //   base: '/my_portfolio',
-  // サイト内のパスはすべて import.meta.env.BASE_URL 経由で生成しているので、これだけで動く。
+  // リポジトリ名を <username>.github.io 以外に変える場合は、公開 URL が https://<username>.github.io/<repo>/ に
+  // なるため base: '/<repo>' を設定する（サイト内のパスはすべて import.meta.env.BASE_URL 経由なので、これだけで動く）。
   output: 'static',
   i18n: {
     defaultLocale: 'ja',

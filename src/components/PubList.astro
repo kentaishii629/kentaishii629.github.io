@@ -14,7 +14,7 @@ interface Props {
 const { lang, pubs, selfVariants } = Astro.props;
 const dict = t(lang);
 
-const TYPE_ORDER = ['journal', 'conference', 'preprint', 'talk', 'other'] as const;
+const TYPE_ORDER = ['journal', 'intl-conference', 'domestic-conference', 'preprint', 'talk', 'other'] as const;
 const presentTypes = TYPE_ORDER.filter((type) => pubs.some((p) => p.data.type === type));
 const LINK_ORDER = ['doi', 'pdf', 'arxiv', 'url'] as const;
 const listId = 'publications-list';
@@ -41,16 +41,17 @@ const listId = 'publications-list';
       const titleLang = pickedLang(data.title, lang);
       const venueLang = pickedLang(data.venue, lang);
       const links = LINK_ORDER.filter((key) => data.links[key]);
+      const authors = lang === 'en' && data.authorsEn ? data.authorsEn : data.authors;
       return (
         <li data-type={data.type}>
           <span class="mono year">{data.year}</span>
           <div class="body">
             <h3 lang={titleLang !== lang ? titleLang : undefined}>{pick(data.title, lang)}</h3>
             <p class="authors">
-              {data.authors.map((author, i) => (
+              {authors.map((author, i) => (
                 <>
                   {isSelf(author, selfVariants) ? <strong>{author}</strong> : author}
-                  {i < data.authors.length - 1 ? ', ' : ''}
+                  {i < authors.length - 1 ? ', ' : ''}
                 </>
               ))}
             </p>
@@ -175,6 +176,11 @@ const listId = 'publications-list';
     transition: opacity 200ms var(--ease);
   }
 
+  /* display: grid が hidden 属性を上書きするので、絞り込みで隠す項目を明示的に消す */
+  .pubs > li[hidden] {
+    display: none;
+  }
+
   .pubs > li:hover::before {
     opacity: 1;
   }
@@ -182,7 +188,7 @@ const listId = 'publications-list';
   .year {
     font-size: 0.75rem;
     letter-spacing: 0.04em;
-    color: var(--color-muted);
+    color: var(--color-accent);
     padding-top: 0.35rem;
   }
 

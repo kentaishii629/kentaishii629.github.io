@@ -9,15 +9,15 @@ import Base from '../layouts/Base.astro';
 import Header from './Header.astro';
 import Hero from './Hero.astro';
 import Section from './Section.astro';
-import ResearchList from './ResearchList.astro';
 import PubList from './PubList.astro';
 import PatentList from './PatentList.astro';
 import ExhibitionList from './ExhibitionList.astro';
-import About from './About.astro';
+import EntryList from './EntryList.astro';
+import type { Entry } from './EntryList.astro';
 import Contact from './Contact.astro';
 import Footer from './Footer.astro';
 import type { Lang } from '../i18n/utils';
-import { t, pick, selfNameVariants } from '../i18n/utils';
+import { t, pick, pickedLang, selfNameVariants } from '../i18n/utils';
 import { localePath, absoluteUrl } from '../lib/site';
 
 interface Props {
@@ -43,10 +43,36 @@ const exhibitions: CollectionEntry<'exhibitions'>[] = (await getCollection('exhi
   (a, b) => (b.data.year ?? -1) - (a.data.year ?? -1) || a.data.order - b.data.order,
 );
 
+/** 多言語フィールドを「ラベル付きの詳細行」にする（値がなければ行を出さない）。 */
+const row = (label: string, field: { ja?: string | undefined; en?: string | undefined } | undefined) =>
+  field ? [{ label, value: pick(field, lang), lang: pickedLang(field, lang) }] : [];
+
+// 受賞は「何で（会議・コンテスト） + 何の賞か」を 1 行の見出しにし、対象（論文・提案の題名）をラベルなしで添える。
+const awardEntries: Entry[] = (await getCollection('awards')).sort(byYearDesc).map(({ data }) => ({
+  year: String(data.year),
+  title: `${pick(data.event, lang)} ${pick(data.award, lang)}`,
+  titleLang: pickedLang(data.event, lang),
+  summary: data.subject ? { text: pick(data.subject, lang), lang: pickedLang(data.subject, lang) } : undefined,
+  rows: [],
+  links: data.link ? [{ label: dict.awards.link, href: data.link }] : [],
+}));
+
+const projectEntries: Entry[] = (await getCollection('projects')).sort(byYearDesc).map(({ data }) => ({
+  year: String(data.year),
+  title: pick(data.title, lang),
+  titleLang: pickedLang(data.title, lang),
+  summary: data.summary ? { text: pick(data.summary, lang), lang: pickedLang(data.summary, lang) } : undefined,
+  rows: [
+    ...row(dict.projects.period, data.period),
+    ...row(dict.projects.funder, data.funder),
+    ...row(dict.projects.role, data.role),
+  ],
+  links: data.links.map((link) => ({ label: pick(link.label, lang), href: link.url })),
+}));
+
 const selfVariants = selfNameVariants(profile.name);
 const name = pick(profile.name, lang);
-const jobTitle = pick(profile.title, lang);
-const pageTitle = `${name} — ${jobTitle}`;
+const pageTitle = `${name} — ${pick(profile.specialty, lang)}`;
 const path = localePath(lang);
 
 const sameAs = Object.values(profile.links).filter(Boolean);
@@ -55,25 +81,16 @@ const jsonLd = {
   '@type': 'Person',
   name,
   alternateName: pick(profile.name, lang === 'ja' ? 'en' : 'ja'),
-  jobTitle,
-  affiliation: profile.affiliations.map((a) => ({ '@type': 'Organization', name: pick(a, lang) })),
-  knowsAbout: profile.research.map((r) => pick(r.title, lang)),
+  affiliation: profile.affiliations.map((a) => ({ '@type': 'Organization', name: pick(a.org ?? a, lang) })),
   url: absoluteUrl(path, Astro.site),
   ...(sameAs.length > 0 ? { sameAs } : {}),
 };
 ---
 
 <Base lang={lang} title={pageTitle} description={dict.meta.description} path={path} jsonLd={jsonLd}>
-  <Header lang={lang} name={name} />
+  <Header lang={lang} />
   <main id="main">
     <Hero lang={lang} profile={profile} />
-    <Section
-      id="research"
-      number={dict.sections.research.number}
-      title={dict.sections.research.title}
-    >
-      <ResearchList lang={lang} items={profile.research} />
-    </Section>
     <Section
       id="publications"
       number={dict.sections.publications.number}
@@ -81,14 +98,17 @@ const jsonLd = {
     >
       <PubList lang={lang} pubs={pubs} selfVariants={selfVariants} />
     </Section>
+    <Section id="awards" number={dict.sections.awards.number} title={dict.sections.awards.title}>
+      <EntryList lang={lang} entries={awardEntries} />
+    </Section>
     <Section id="patents" number={dict.sections.patents.number} title={dict.sections.patents.title}>
       <PatentList lang={lang} patents={patents} selfVariants={selfVariants} note={profile.patentNote} />
     </Section>
+    <Section id="projects" number={dict.sections.projects.number} title={dict.sections.projects.title}>
+      <EntryList lang={lang} entries={projectEntries} />
+    </Section>
     <Section id="exhibitions" number={dict.sections.exhibitions.number} title={dict.sections.exhibitions.title}>
       <ExhibitionList lang={lang} exhibitions={exhibitions} />
-    </Section>
-    <Section id="about" number={dict.sections.about.number} title={dict.sections.about.title}>
-      <About lang={lang} profile={profile} />
     </Section>
     <Section id="contact" number={dict.sections.contact.number} title={dict.sections.contact.title}>
       <Contact lang={lang} profile={profile} />

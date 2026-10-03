@@ -1,21 +1,40 @@
 # 展示リスト。年（year）の降順に自動で並ぶ（同じ年の中、および year 省略分はこのファイルの記載順）。
 # title.ja 以外はすべて任意。role には担当した展示物・役割を書く。
-# TODO: 両展示とも展示会名・会場・会期・年を確認して追記する（この環境からは公式ページを参照できなかった）。
+# image はこのファイルからの相対パス（src/assets/exhibitions/ に置く）。imageAlt / imageCaption は任意。
+# 展示会名・会期は各公式ページ（link）で確認済み。
 - id: good-design-marunouchi-77
-  # year: 2021
+  year: 2020
   title:
-    ja: GOOD DESIGN Marunouchi 第77回展示
-    en: GOOD DESIGN Marunouchi Exhibition No. 77
+    ja: 危機の中の都市 COVID-19と東京2050(β)
+    en: "Cities in Crisis: COVID-19 and A Plan for Tokyo 2050 (β)"
   venue: { ja: GOOD DESIGN Marunouchi（東京・丸の内）, en: "GOOD DESIGN Marunouchi, Tokyo" }
+  period: { ja: 2020年9月18日〜10月8日, en: "September 18 - October 8, 2020" }
   role:
-    ja: 「with Covid-19から見通す東京2050 交通シミュレーション」担当
-    en: "In charge of \"Tokyo 2050 Traffic Simulation Seen Through With-Covid-19\""
+    ja: 東京圏マルチスケール交通シミュレーション「With COVID-19は，東京2050を見通すか？」の制作を担当
+    en: "Produced \"Will people's lives in 2050 change as they do during 'With COVID-19'?\", a multi-scale traffic simulation of the Tokyo metropolitan area"
+  image: ../assets/exhibitions/tokyo2050-with-covid19.png
+  imageAlt:
+    ja: 展示映像の冒頭スライド。混雑した電車内の写真に乗客の輪郭線を重ね、「With COVID-19は，東京2050を見通すか？」と記されている
+    en: "Opening slide of the exhibited video: a photo of a crowded train with passengers outlined, titled \"Will people's lives in 2050 change as they do during 'With COVID-19'?\""
+  imageCaption:
+    ja: 展示映像のイントロダクション
+    en: Introduction of the exhibited video
   link: https://marunouchi.g-mark.org/exhibition77.html
 - id: design-hub-6288
-  # year:
+  year: 2020
   title:
-    ja: 東京ミッドタウン・デザインハブ 企画展
-    en: Tokyo Midtown Design Hub Exhibition
+    ja: ゼミ展2020 見のがし卒展
+    en: "Zemi Exhibition 2020: Missed Graduation Exhibition" # 仮訳
   venue: { ja: 東京ミッドタウン・デザインハブ（東京・六本木）, en: "Tokyo Midtown Design Hub, Tokyo" }
-  # TODO: 担当内容を記載する
+  period: { ja: 2020年9月8日〜9月27日, en: "September 8-27, 2020" }
+  role:
+    ja: 「海と都市と向き合う暮らし」（対象地：愛媛県八幡浜）を制作・出展
+    en: "Created and exhibited \"Living Facing the Sea and the City\" (site: Yawatahama, Ehime)" # 仮訳
+  image: ../assets/exhibitions/yawatahama-contour-model.jpg
+  imageAlt:
+    ja: 段ボールを等高線状に積層した八幡浜市中心市街地の地形模型
+    en: Contour model of central Yawatahama made of layered cardboard
+  imageCaption:
+    ja: 八幡浜市中心市街地地形図（S = 1:5000）
+    en: "Topographic model of central Yawatahama (scale 1:5000)"
   link: https://www.designhub.jp/exhibitions/6288

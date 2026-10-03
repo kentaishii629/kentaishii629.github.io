@@ -13,22 +13,26 @@
 ## デザイン上の決まり（本人の指示）
 
 - 名前は大きくしない（30〜40px 程度）。キャッチコピー、件数表示、リード文は置かない。
-- 書体: Inter（欧文）/ Noto Sans JP（和文）/ JetBrains Mono は数字・コードのみ。日本語を等幅で組まない。
-- 背景は純白ではなく紙色（ライト `#faf9f6`、ダーク `#121110`）。アクセントは青 1 色。
-- Noto Sans JP の `@font-face` は `scripts/fonts.mjs` が必要な分割だけ生成する（build 前に自動実行）。
+- テイストは「雑誌風」（Works in Progress 誌を参照、2026-10 に本人が選定）。生成りの紙に藍のインク、アクセントは朱 1 色。
+  地 `#f8f0e2` / 文字 `#1f2a6e` / 朱 `#d9432a`。章の区切りは藍の太罫（3px）。
+  配色は端末のダークモード設定に関係なく固定する（ダーク用の配色は置かない）。
+- 書体: 見出し・題名は Source Serif 4（欧文）/ Shippori Mincho（和文）、本文は Inter / Noto Sans JP、
+  IBM Plex Mono は数字・コード・ロゴのみ。日本語を等幅で組まない。
+- 和文書体（Noto Sans JP・Shippori Mincho）の `@font-face` は `scripts/fonts.mjs` が必要な分割だけ生成する（build 前に自動実行）。
   `src/styles/fonts.generated.css` は直接編集しない。
-- セクション構成: 01 研究テーマ / 02 論文 / 03 特許 / 04 展示 / 05 自己紹介 / 06 連絡先。
-  id（`research` など）は両言語で共通にし、言語切替時にハッシュ位置を維持する。
+- セクション構成: 01 論文・発表 / 02 受賞 / 03 特許 / 04 事業 / 05 展示 / 06 連絡先。研究テーマ・自己紹介の章は置かない。
+  論文・発表の種別は 論文誌 / 国際会議 / 国内学会 / プレプリント / 講演 / その他。
+  id（`publications` など）は両言語で共通にし、言語切替時にハッシュ位置を維持する。
+- ヘッダー左上は名前ではなく「Portfolio」。Hero は名前の下に「所属 / 専門分野 / 来歴」をラベル付きで並べる（役職は所属の行に書く）。
 
 ## 未対応（引き継ぎ）
 
-- 論文: Google Scholar（https://scholar.google.co.jp/citations?user=_04yi2cAAAAJ）の一覧を `publications.yaml` に反映し、【ダミー】の項目を削除する。
-- 講演: 応用空間統計ワークショップ（2025-01-08、統計数理研究所、招待講演）のタイトル。
-  OHOW セミナー（https://ohow.iis.u-tokyo.ac.jp/archives/2024）の正式名称と開催日。
-- 展示: `exhibitions.yaml` の 2 件について展示会名・会場・会期・年を公式ページで確認し、
-  デザインハブ展（https://www.designhub.jp/exhibitions/6288）の担当内容を追記する。
-- 特許: 各件の登録 / 出願中（`status`）と共同発明者（`inventors`）。
-- プロフィール: 連絡先メール、researchmap / ORCID の URL、`public/og.png` の差し替え。
-- 公開: GitHub の Settings → Pages → Source を GitHub Actions にする。
-  リポジトリ名が `my_portfolio` のまま公開するなら `astro.config.mjs` の `base: '/my_portfolio'` を有効にする。
-- デザインの参考調査（本人が後で行う予定）。
+- 英語の仮訳: `src/data/*.yaml` で `# 仮訳` とコメントした英語表記は公式の英題が見つからなかったもの
+  （土木計画学 2 件、サイバネ 2 件、受賞 2 件、事業 2 件、展示 2 か所）。日立評論は英語版 Hitachi Review の題名を確認済み。
+- 著者名のローマ字（`authorsEn`）: 吉治 季恵（Kie Yoshiji）、室 啓朗（Hiroaki Muro）の読みは未確認。
+- 特許: 各件の登録 / 出願中（`status`）と共同発明者（`inventors`）。確認先のサイトがサービス休止中のため再開待ち（2026-10 時点）。
+  表示は公開番号のみ（出願国・日付・出願人は YAML に残すが出さない。本人の指示）。
+- プロフィール: researchmap の URL。
+- `public/og.png` は `# 仮` の文字組み画像（名前・専門分野・目次）。差し替える場合は 1200x630。
+- 事業: 年度ごとに事業名が違うものは別項目にし、題名の粒度（年度 + 事業の正式名 + 個別の事業名）を揃える（本人の指示）。
+- 受賞: 見出しは「何で + 何の賞か」の 1 行、対象の題名はラベルなしで添える（本人の指示）。

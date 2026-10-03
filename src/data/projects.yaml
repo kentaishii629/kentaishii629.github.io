@@ -1,0 +1,32 @@
+# 事業リスト。年（year: 年度の開始年）の降順に自動で並ぶ（同じ年の中はこのファイルの記載順）。
+# title.ja と year 以外は任意。links は { label, url } の配列。
+# 年度ごとに事業名が違うものは別の項目として書く。title は「年度 + 事業の正式名 + 個別の事業名」の粒度で揃える。
+# 事業名は経済産業省の公表版報告書に記載の名称。英語名は仮訳。
+- id: meti-regional-maas-fukuoka-fy2024
+  year: 2024
+  title:
+    ja: 経済産業省 令和6年度「地域新MaaS創出推進事業」モビリティデータ協調による地域内移動リソース最適化を目指したデータ利活用事業（MaaSコーディネータ事業）
+    en: "METI FY2024 \"Regional New MaaS Creation Promotion Project\": Data Utilization Business for Optimizing Regional Mobility Resources through Mobility Data Coordination (MaaS Coordinator Business)" # 仮訳
+  period:
+    ja: 2024年度（福岡エリア）
+    en: "FY2024 (Fukuoka area)"
+  funder:
+    ja: "経済産業省（スマートモビリティチャレンジ2024）／委託事業者: 株式会社日立製作所"
+    en: "Ministry of Economy, Trade and Industry (Smart Mobility Challenge 2024); contractor: Hitachi, Ltd."
+  links:
+    - label: { ja: 令和6年度の成果（経済産業省）, en: FY2024 results (METI) }
+      url: https://www.meti.go.jp/shingikai/mono_info_service/smart_mobility_challenge/20250331_report.html
+- id: meti-regional-maas-fukuoka-fy2023
+  year: 2023
+  title:
+    ja: 経済産業省 令和5年度「地域新MaaS創出推進事業」モビリティデータの連携・協調による移動サービスの全体最適・調和の検証
+    en: "METI FY2023 \"Regional New MaaS Creation Promotion Project\": Verifying Overall Optimization and Harmonization of Mobility Services through Linkage and Coordination of Mobility Data" # 仮訳
+  period:
+    ja: 2023年度（福岡エリア）
+    en: "FY2023 (Fukuoka area)"
+  funder:
+    ja: "経済産業省（スマートモビリティチャレンジ2023）／委託事業者: 株式会社日立製作所"
+    en: "Ministry of Economy, Trade and Industry (Smart Mobility Challenge 2023); contractor: Hitachi, Ltd."
+  links:
+    - label: { ja: 令和5年度 採択地域別報告書（経済産業省）, en: FY2023 report by area (METI) }
+      url: https://www.meti.go.jp/shingikai/mono_info_service/smart_mobility_challenge/pdf/20240328_s01.pdf

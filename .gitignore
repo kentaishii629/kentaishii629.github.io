@@ -11,3 +11,8 @@ npm-debug.log*
 .env.production
 # macOS
 .DS_Store
+# 元素材（サイトで使う分は src/assets/ に縮小版を置く。原本はリポジトリに入れない）
+/*.mp4
+/*.pptx
+/*.jpg
+/*.png

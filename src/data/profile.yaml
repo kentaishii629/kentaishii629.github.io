@@ -1,50 +1,45 @@
 # プロフィール。多言語フィールドは { ja, en } 形式。片方が空ならもう片方で代替表示される。
 name: { ja: 石井 健太, en: Kenta Ishii }
-title:
-  ja: 研究員 / 都市・交通解析
-  en: Senior Researcher / Urban & Transportation Analytics
+# 専門分野（Hero とページタイトルに表示される）。役職は affiliations 側に書く。
+specialty:
+  ja: 都市・交通解析
+  en: Urban & Transportation Analytics
 affiliations:
   - ja: 株式会社日立製作所 研究開発グループ 研究員 (Senior Researcher)
     en: Senior Researcher, Research & Development Group, Hitachi, Ltd.
+    org: { ja: 株式会社日立製作所, en: "Hitachi, Ltd." }
   - ja: 東京大学大学院 工学系研究科 建築学専攻 博士課程
-    en: Ph.D. Candidate, Department of Architecture, The University of Tokyo
-# bio: 空行で段落を分ける。段落内の改行は、日本語はそのまま連結、英語は空白で連結される。
-bio:
-  ja: |-
-    都市空間における人の移動・滞在行動を対象に、観測データからその構造を推定する研究を行っています。
-    人流データや交通ネットワークを題材に、行動モデルの推定と因果推論、機械学習の応用に取り組んでいます。
-    研究成果を都市計画や交通施策の評価に活かすことを目指しています。
-  en: |-
-    I study how people move and stay in urban space, estimating the underlying structure from observational data.
-    My work spans behavioral model estimation, causal inference, and machine-learning applications
-    on pedestrian-flow data and transportation networks, with the aim of informing urban and transport policy evaluation.
-research:
-  - title: { ja: 人流分析, en: Pedestrian Flow Analysis }
-    summary:
-      ja: 位置情報や観測カウントから、都市内の歩行者の流れと滞留の構造を推定する。
-      en: Estimating the structure of pedestrian flows and dwell behavior in cities from location data and observed counts.
-  - title: { ja: 交通ネットワークモデリング, en: Transportation Network Modeling }
-    summary:
-      ja: 道路・公共交通ネットワーク上の経路選択と配分を記述するモデルの構築と推定。
-      en: Building and estimating models of route choice and assignment on road and transit networks.
-  - title: { ja: 行動パラメータ推定, en: Behavioral Parameter Estimation }
-    summary:
-      ja: 離散選択モデルなどを用いて、移動行動の背後にある選好パラメータを統計的に推定する。
-      en: Statistically estimating preference parameters behind travel behavior using discrete choice and related models.
-  - title: { ja: 因果推論, en: Causal Inference }
-    summary:
-      ja: 観測データから交通・都市施策の効果を識別するための因果推論手法の適用と拡張。
-      en: Applying and extending causal inference methods to identify the effects of transport and urban interventions from observational data.
-  - title: { ja: 交通への機械学習応用, en: Machine Learning for Transportation }
-    summary:
-      ja: 需要予測や行動分類など、交通分野の問題に対する機械学習手法の応用と解釈性の検討。
-      en: Applying machine learning to transportation problems such as demand forecasting and behavior classification, with attention to interpretability.
+    en: Ph.D. Student, Department of Architecture, The University of Tokyo
+    org: { ja: 東京大学, en: The University of Tokyo }
+# 来歴（記載順に表示）。
+history:
+  - year: 2019
+    text:
+      ja: 東京大学 工学部 社会基盤学科 卒業
+      en: B.Eng., Department of Civil Engineering, Faculty of Engineering, The University of Tokyo
+  - year: 2021
+    text:
+      ja: 東京大学大学院 工学系研究科 社会基盤学専攻 修了
+      en: M.Eng., Department of Civil Engineering, Graduate School of Engineering, The University of Tokyo
+  - year: 2021
+    text:
+      ja: 株式会社日立製作所 入社
+      en: Joined Hitachi, Ltd.
+  - year: 2026
+    text:
+      ja: 東京大学大学院 工学系研究科 建築学専攻 博士課程 入学（社会人博士）
+      en: "Entered the doctoral program, Department of Architecture, Graduate School of Engineering, The University of Tokyo (while working at Hitachi)"
 links:
   researchmap: "" # TODO: researchmap の URL を設定
   scholar: https://scholar.google.co.jp/citations?user=_04yi2cAAAAJ&hl=ja&oi=ao
-  orcid: "" # TODO: ORCID の URL を設定
+  orcid: https://orcid.org/0000-0001-6619-9911
   github: https://github.com/kentaishii629
-email: "" # TODO: 連絡先メールアドレスを設定（表示時は簡易難読化される）
+# 連絡先メール（複数可。表示時は簡易難読化される）。label は任意。
+emails:
+  - label: { ja: 日立製作所, en: "Hitachi, Ltd." }
+    address: kenta.ishii.py@hitachi.com
+  - label: { ja: 東京大学, en: The University of Tokyo }
+    address: ke-ishii@iis.u-tokyo.ac.jp
 # 特許セクションの冒頭に添える一文（任意）。
 patentNote:
   ja: 株式会社日立製作所において発明者として出願。主なものを以下に挙げる。

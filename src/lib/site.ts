@@ -22,5 +22,5 @@ export function absoluteUrl(path: string, site: URL | undefined): string {
 }
 
 /** セクションの id と表示順。両言語で同じ id を使い、言語切替時にハッシュ位置を維持する。 */
-export const SECTION_IDS = ['research', 'publications', 'patents', 'exhibitions', 'about', 'contact'] as const;
+export const SECTION_IDS = ['publications', 'awards', 'patents', 'projects', 'exhibitions', 'contact'] as const;
 export type SectionId = (typeof SECTION_IDS)[number];

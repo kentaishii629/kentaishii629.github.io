@@ -7,7 +7,7 @@ export const en: Dictionary = {
   ogLocale: 'en_US',
   meta: {
     description:
-      'Research portfolio of Kenta Ishii, Senior Researcher at Hitachi, Ltd. and Ph.D. candidate at The University of Tokyo: pedestrian flow analysis, transportation network modeling, behavioral parameter estimation, causal inference, and machine learning for transportation. Publications and patents.',
+      'Research portfolio of Kenta Ishii, Senior Researcher at Hitachi, Ltd. and Ph.D. student at The University of Tokyo: pedestrian flow analysis, transportation network modeling, behavioral parameter estimation, causal inference, and machine learning for transportation. Publications, talks, awards, patents, projects, and exhibitions.',
   },
   skipToContent: 'Skip to content',
   langSwitch: {
@@ -19,13 +19,16 @@ export const en: Dictionary = {
   },
   hero: {
     scrollHint: 'Contents',
+    affiliation: 'Affiliation',
+    specialty: 'Field',
+    history: 'Background',
   },
   sections: {
-    research: { number: '01', title: 'Research' },
-    publications: { number: '02', title: 'Publications' },
+    publications: { number: '01', title: 'Publications & Talks' },
+    awards: { number: '02', title: 'Awards' },
     patents: { number: '03', title: 'Patents' },
-    exhibitions: { number: '04', title: 'Exhibitions' },
-    about: { number: '05', title: 'About' },
+    projects: { number: '04', title: 'Projects' },
+    exhibitions: { number: '05', title: 'Exhibitions' },
     contact: { number: '06', title: 'Contact' },
   },
   publications: {
@@ -33,7 +36,8 @@ export const en: Dictionary = {
     types: {
       all: 'All',
       journal: 'Journal',
-      conference: 'Conference',
+      'intl-conference': 'International conference',
+      'domestic-conference': 'Domestic conference',
       preprint: 'Preprint',
       talk: 'Talks',
       other: 'Other',
@@ -50,22 +54,22 @@ export const en: Dictionary = {
     granted: 'Granted',
     pending: 'Pending',
     number: 'Publication No.',
-    jurisdictions: 'Jurisdictions',
-    priorityDate: 'Priority date',
-    filedDate: 'Filing date',
-    publishedDate: 'Publication date',
-    assignee: 'Assignee',
     inventors: 'Inventors',
     link: 'Patent record',
+  },
+  awards: {
+    link: 'Award page',
+  },
+  projects: {
+    period: 'Period',
+    funder: 'Funded by',
+    role: 'Role',
   },
   exhibitions: {
     venue: 'Venue',
     period: 'Dates',
     role: 'Role',
     link: 'Exhibition page',
-  },
-  about: {
-    affiliation: 'Affiliation',
   },
   contact: {
     email: 'Email',

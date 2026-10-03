@@ -1,5 +1,5 @@
-// Noto Sans JP の @font-face を、サイトのテキストで実際に使う分割（unicode-range）だけに絞って生成する。
-// @fontsource/noto-sans-jp の <weight>.css は 1 ウェイトあたり約 120 個の @font-face を含み、
+// 和文書体（Noto Sans JP・Shippori Mincho）の @font-face を、サイトのテキストで実際に使う分割（unicode-range）だけに絞って生成する。
+// @fontsource の <weight>.css は 1 ウェイトあたり約 120 個の @font-face を含み、
 // そのままではブラウザのフォント照合が初回レイアウトのボトルネックになるため。
 // 入力: src/data/*.yaml, src/i18n/*.ts のテキスト  →  出力: src/styles/fonts.generated.css
 // package.json の predev / prebuild / precheck から自動で実行される。
@@ -8,13 +8,16 @@ import { dirname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-const FAMILY = 'noto-sans-jp';
-const WEIGHTS = [400, 600];
+// 600 は本人名にしか使わない（Noto Sans JP は著者名の太字、Shippori Mincho は h1）。
+const FAMILIES = [
+  { pkg: 'noto-sans-jp', name: 'Noto Sans JP', weights: [400, 600] },
+  { pkg: 'shippori-mincho', name: 'Shippori Mincho', weights: [500, 600] },
+];
 const OUT = join(root, 'src/styles/fonts.generated.css');
 
 /**
  * サイトで使う文字の集合を集める。
- * 400: すべてのデータと UI 文言。600（太字）: 本人名など profile.yaml に含まれる文字のみ。
+ * 600 未満: すべてのデータと UI 文言。600（太字）: 本人名など profile.yaml に含まれる文字のみ。
  */
 function collectCodePoints(weight) {
   const used = new Set();
@@ -72,24 +75,30 @@ function intersects(ranges, used) {
 }
 
 const blocks = [];
-let total = 0;
-for (const weight of WEIGHTS) {
-  const used = collectCodePoints(weight);
-  const css = readFileSync(join(root, 'node_modules/@fontsource', FAMILY, `${weight}.css`), 'utf8');
-  for (const match of css.matchAll(/@font-face\s*{([^}]*)}/g)) {
-    total += 1;
-    const body = match[1];
-    const range = /unicode-range:\s*([^;]+);/.exec(body)?.[1];
-    const woff2 = /url\(([^)]*\.woff2)\)/.exec(body)?.[1]?.replace(/^['"]|['"]$/g, '');
-    if (!range || !woff2 || !intersects(parseRanges(range), used)) continue;
-    const file = join(root, 'node_modules/@fontsource', FAMILY, woff2);
-    const url = relative(dirname(OUT), file).split('\\').join('/');
-    blocks.push(
-      `@font-face {\n  font-family: 'Noto Sans JP';\n  font-style: normal;\n  font-display: swap;\n  font-weight: ${weight};\n  src: url('${url}') format('woff2');\n  unicode-range: ${range.trim()};\n}`,
-    );
+const summary = [];
+for (const { pkg, name, weights } of FAMILIES) {
+  let picked = 0;
+  let total = 0;
+  for (const weight of weights) {
+    const used = collectCodePoints(weight);
+    const css = readFileSync(join(root, 'node_modules/@fontsource', pkg, `${weight}.css`), 'utf8');
+    for (const match of css.matchAll(/@font-face\s*{([^}]*)}/g)) {
+      total += 1;
+      const body = match[1];
+      const range = /unicode-range:\s*([^;]+);/.exec(body)?.[1];
+      const woff2 = /url\(([^)]*\.woff2)\)/.exec(body)?.[1]?.replace(/^['"]|['"]$/g, '');
+      if (!range || !woff2 || !intersects(parseRanges(range), used)) continue;
+      const file = join(root, 'node_modules/@fontsource', pkg, woff2);
+      const url = relative(dirname(OUT), file).split('\\').join('/');
+      picked += 1;
+      blocks.push(
+        `@font-face {\n  font-family: '${name}';\n  font-style: normal;\n  font-display: swap;\n  font-weight: ${weight};\n  src: url('${url}') format('woff2');\n  unicode-range: ${range.trim()};\n}`,
+      );
+    }
   }
+  summary.push(`${name} ${picked}/${total}`);
 }
 
-const header = `/* 自動生成ファイル（scripts/fonts.mjs）。直接編集しない。\n   サイトのテキストで使う Noto Sans JP の分割だけを含む: ${blocks.length} / ${total} 個の @font-face */\n`;
+const header = `/* 自動生成ファイル（scripts/fonts.mjs）。直接編集しない。\n   サイトのテキストで使う分割だけを含む（@font-face の数）: ${summary.join(', ')} */\n`;
 writeFileSync(OUT, `${header}${blocks.join('\n')}\n`);
-console.log(`fonts: Noto Sans JP ${blocks.length}/${total} @font-face → ${relative(root, OUT)}`);
+console.log(`fonts: ${summary.join(', ')} @font-face → ${relative(root, OUT)}`);

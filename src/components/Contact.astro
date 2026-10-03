@@ -1,6 +1,6 @@
 ---
 import type { Lang } from '../i18n/utils';
-import { t } from '../i18n/utils';
+import { t, pick } from '../i18n/utils';
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
@@ -13,8 +13,10 @@ const dict = t(lang);
 
 // メールは簡易難読化: ユーザ名とドメインを反転してデータ属性に持たせ、表示時に JS で組み立てる。
 const reverse = (s: string) => Array.from(s).reverse().join('');
-const [emailUser = '', emailDomain = ''] = profile.email ? profile.email.split('@') : [];
-const hasEmail = Boolean(emailUser && emailDomain);
+const emails = profile.emails.map(({ label, address }) => {
+  const [user = '', domain = ''] = address.split('@');
+  return { user, domain, label: label ? pick(label, lang) : '' };
+});
 
 const LINK_ORDER = ['researchmap', 'scholar', 'orcid', 'github'] as const;
 
@@ -38,14 +40,17 @@ const links = LINK_ORDER.filter((key) => profile.links[key]).map((key) => ({
 
 <ul class="contact">
   {
-    hasEmail && (
+    emails.map((email) => (
       <li>
         <span class="key label">{dict.contact.email}</span>
-        <span class="email mono" data-u={reverse(emailUser)} data-d={reverse(emailDomain)}>
-          {emailUser} {dict.contact.emailAt} {emailDomain}
+        <span class="value">
+          <span class="email mono" data-u={reverse(email.user)} data-d={reverse(email.domain)}>
+            {email.user} {dict.contact.emailAt} {email.domain}
+          </span>
+          {email.label && <span class="affiliation muted">{email.label}</span>}
         </span>
       </li>
-    )
+    ))
   }
   {
     links.map((link) => (
@@ -91,9 +96,22 @@ const links = LINK_ORDER.filter((key) => profile.links[key]).map((key) => ({
     padding-top: 0.5rem;
   }
 
+  .value {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+    padding-bottom: 0.375rem;
+  }
+
   .email {
     font-size: 0.75rem;
     overflow-wrap: anywhere;
+  }
+
+  .affiliation {
+    font-size: 0.75rem;
+    line-height: 1.4;
   }
 
   .contact :global(.arrow-link) {

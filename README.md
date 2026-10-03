@@ -2,14 +2,14 @@
 
 Astro で構築した静的な個人ポートフォリオサイト。日英 2 言語（`/ja/`, `/en/`）に対応し、GitHub Pages で公開する。
 
-- データ（プロフィール・論文・特許・展示）は `src/data/*.yaml` に書く。スキーマ違反があるとビルドが失敗する。
+- データ（プロフィール・論文・受賞・特許・事業・展示）は `src/data/*.yaml` に書く。スキーマ違反があるとビルドが失敗する。
 - UI の文言は `src/i18n/ja.ts` / `src/i18n/en.ts` にある。
-- 書体は Inter（欧文）/ Noto Sans JP（和文）/ JetBrains Mono（数字・コードのみ）。
+- 書体は見出しが Source Serif 4 / Shippori Mincho、本文が Inter / Noto Sans JP、IBM Plex Mono は数字・コードのみ。
 - 外部サービスや解析タグは使わず、フォントも自己ホストしている（`@fontsource`）。
 
 ## ローカルで起動する
 
-`npm run dev` / `build` / `check` の前には `scripts/fonts.mjs` が自動で走り、サイトのテキストで使う Noto Sans JP の分割だけを `src/styles/fonts.generated.css` に書き出す（YAML や文言を変えても自動で追従する）。
+`npm run dev` / `build` / `check` の前には `scripts/fonts.mjs` が自動で走り、サイトのテキストで使う和文書体（Noto Sans JP・Shippori Mincho）の分割だけを `src/styles/fonts.generated.css` に書き出す（YAML や文言を変えても自動で追従する）。
 
 Node.js 22.12 以上が必要。
 
@@ -33,11 +33,12 @@ npm run check      # 型チェック（astro check）
 ```yaml
 - id: ishii-2026-journal        # 一意な ID
   year: 2026
-  type: journal                 # journal | conference | preprint | talk | other
+  type: journal                 # journal | intl-conference | domestic-conference | preprint | talk | other
   title:
     ja: 論文タイトル（任意）
     en: Paper Title             # en は必須
   authors: [Kenta Ishii, Taro Yamada]   # 本人名は自動で太字になる
+  authorsEn: [Kenta Ishii, Taro Yamada] # authors が日本語表記のときだけ書く（英語ページ用）
   venue:
     ja: 掲載誌名（任意）
     en: Journal Name, Vol. 1, pp. 1-10
@@ -70,6 +71,36 @@ npm run check      # 型チェック（astro check）
 
 セクション冒頭の一文は `profile.yaml` の `patentNote`（任意）に書く。
 
+### 受賞（`src/data/awards.yaml`）
+
+`year` の降順に並ぶ。見出しは「`event`（何で） + `award`（何の賞か）」の 1 行で、`subject`（対象）はその下に添える。
+
+```yaml
+- id: award-2026
+  year: 2026
+  event: { ja: 会議・コンテストの名称, en: Event }
+  award: { ja: 賞の名称・順位, en: Award Name }
+  subject: { ja: 「対象の論文・提案の題名」, en: "\"Title\"" }   # 任意
+  link: https://example.com/awards
+```
+
+### 事業（`src/data/projects.yaml`）
+
+`year`（参加開始年）の降順に並ぶ。`title.ja` と `year` 以外は任意。
+
+```yaml
+- id: project-2026
+  year: 2026
+  title: { ja: 事業の名称, en: Project Name }
+  period: { ja: 2026年度〜, en: FY2026- }
+  funder: { ja: 所管・委託元, en: Funder }
+  role: { ja: 担当した役割, en: Role }
+  summary: { ja: 事業の概要, en: Short description }
+  links:
+    - label: { ja: 成果報告書, en: Report }
+      url: https://example.com/report.pdf
+```
+
 ### 展示（`src/data/exhibitions.yaml`）
 
 `year` の降順に並ぶ（`year` を省略した項目は末尾に記載順）。`title.ja` 以外は任意。
@@ -82,12 +113,15 @@ npm run check      # 型チェック（astro check）
   period: { ja: 2026年4月1日〜4月30日, en: "April 1-30, 2026" }
   role: { ja: 「作品名」担当, en: "In charge of \"Work Title\"" }
   summary: { ja: 展示の概要, en: Short description }
+  image: ../assets/exhibitions/work.jpg   # src/assets/exhibitions/ に置いた画像（ビルド時に WebP へ最適化される）
+  imageAlt: { ja: 画像の説明, en: Image description }
+  imageCaption: { ja: キャプション, en: Caption }
   link: https://example.com/exhibition
 ```
 
 ### プロフィール（`src/data/profile.yaml`）
 
-名前・肩書き・所属・研究テーマ・リンク・メールアドレス・特許の注記（`patentNote`）を書く。多言語フィールドは `{ ja, en }` 形式で、片方が空ならもう片方で代替表示される。
+名前・専門分野（`specialty`）・所属・来歴（`history`）・リンク・メールアドレス（`emails`、複数可）・特許の注記（`patentNote`）を書く。多言語フィールドは `{ ja, en }` 形式で、片方が空ならもう片方で代替表示される。
 
 本人名の太字判定には `name` の `ja` / `en` が使われる（`Kenta Ishii`, `Ishii, K.`, `K. Ishii` などの表記ゆれにも対応）。
 
@@ -104,12 +138,12 @@ npm run check      # 型チェック（astro check）
 ## ディレクトリ構成
 
 ```
-scripts/fonts.mjs    # 使う分割だけの Noto Sans JP @font-face を生成（build 前に自動実行）
+scripts/fonts.mjs    # 使う分割だけの和文書体 @font-face を生成（build 前に自動実行）
 src/
-  data/            # profile.yaml / publications.yaml / patents.yaml / exhibitions.yaml
+  data/            # profile.yaml / publications.yaml / awards.yaml / patents.yaml / projects.yaml / exhibitions.yaml
   content.config.ts  # コレクション定義と zod スキーマ
   i18n/            # UI 文言（ja.ts / en.ts）とユーティリティ
-  components/      # Header / Hero / Section / 各リスト / About / Contact / Footer / Portfolio
+  components/      # Header / Hero / Section / 各リスト / Contact / Footer / Portfolio
   layouts/         # Base.astro（head・OGP・hreflang・JSON-LD・フォント）
   pages/           # index.astro（言語振り分け）/ ja/ / en/
   styles/          # global.css（デザイントークン・リセット）/ fonts.generated.css（自動生成）

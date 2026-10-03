@@ -1,23 +1,25 @@
 /* ==========================================================================
-   Design tokens — editorial / Swiss grid
+   Design tokens — 雑誌風: 生成りの紙、藍のインク、朱のアクセント
    ========================================================================== */
 :root {
-  color-scheme: light dark;
+  /* 配色は端末のダークモード設定に関係なく固定（本人の指示） */
+  color-scheme: light;
 
   --font-sans: 'Inter', 'Noto Sans JP', system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', 'Yu Gothic', sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  --font-serif: 'Source Serif 4', 'Shippori Mincho', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
 
-  /* Light palette: 純白ではなく、わずかに温かみのある紙色（本文・補助テキストは AA 4.5:1 以上） */
-  --color-bg: #faf9f6;
-  --color-bg-elev: #f2f0ea;
-  --color-fg: #1b1a17;
-  --color-muted: #67635b;
-  --color-faint: #948f85;
-  --color-border: #e5e2da;
-  --color-rule: #d8d4ca;
-  --color-accent: #2553d8;
-  --color-accent-soft: rgba(37, 83, 216, 0.08);
-  --color-header: rgba(250, 249, 246, 0.78);
+  /* Light palette: 生成りの紙に藍のインク、アクセントは朱 1 色 */
+  --color-bg: #f8f0e2;
+  --color-bg-elev: #f0e6d3;
+  --color-fg: #1f2a6e;
+  --color-muted: #555d92;
+  --color-faint: #8a90b5;
+  --color-border: rgba(31, 42, 110, 0.35);
+  --color-rule: #1f2a6e;
+  --color-accent: #d9432a;
+  --color-accent-soft: rgba(217, 67, 42, 0.1);
+  --color-header: rgba(248, 240, 226, 0.88);
 
   /* 8px spacing scale */
   --sp-1: 0.5rem;
@@ -39,28 +41,14 @@
   --year-col: 4.5rem;
   --gutter: 20px;
   --header-h: 64px;
-  --radius: 4px;
+  --radius: 0px;
   --hairline: 1px solid var(--color-border);
+  --rule-strong: 3px solid var(--color-fg);
 
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
   --dur: 600ms;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* Dark palette: 同じく温かみのある墨色 */
-    --color-bg: #121110;
-    --color-bg-elev: #1b1a18;
-    --color-fg: #ebe8e2;
-    --color-muted: #a39e95;
-    --color-faint: #75706a;
-    --color-border: #2a2825;
-    --color-rule: #36332f;
-    --color-accent: #86a4ff;
-    --color-accent-soft: rgba(134, 164, 255, 0.12);
-    --color-header: rgba(18, 17, 16, 0.78);
-  }
-}
 
 /* ==========================================================================
    Reset
@@ -139,31 +127,29 @@ a {
 h1,
 h2,
 h3 {
+  font-family: var(--font-serif);
   font-weight: 500;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.01em;
   line-height: 1.25;
   text-wrap: balance;
 }
 
 h1 {
   font-size: clamp(1.875rem, 1.5rem + 1.4vw, 2.5rem);
-  font-weight: 500;
-  letter-spacing: -0.02em;
+  font-weight: 600;
   line-height: 1.25;
 }
 
 h2 {
   font-size: clamp(1.5rem, 1.3rem + 0.8vw, 1.75rem);
-  font-weight: 400;
-  letter-spacing: -0.02em;
+  font-weight: 500;
   line-height: 1.2;
 }
 
 h3 {
-  font-size: 1.0625rem;
+  font-size: 1.125rem;
   font-weight: 500;
-  letter-spacing: -0.012em;
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
 strong,
@@ -171,14 +157,21 @@ b {
   font-weight: 600;
 }
 
-/* 日本語ページ: 見出しはプロポーショナル詰め（palt）+ わずかに広い字間、本文は行間を広めに */
+/* 日本語ページ: 本文は行間を広めに */
 html:lang(ja) body {
   line-height: 1.8;
 }
 
 html:lang(ja) :is(h1, h2, h3) {
-  font-feature-settings: 'palt' 1, 'kern' 1;
+  font-feature-settings: 'kern' 1;
   letter-spacing: 0.01em;
+}
+
+/* 日本語の見出しは balance だと語の途中で折り返すので、文節単位（対応ブラウザのみ）で折り返す */
+:is(h1, h2, h3):lang(ja) {
+  text-wrap: pretty;
+  word-break: auto-phrase;
+  line-break: strict;
 }
 
 .mono {
@@ -346,7 +339,7 @@ html:lang(ja) .arrow-link {
 
 .section > .container > .grid-aside {
   padding-block: var(--sp-6) var(--sp-6);
-  border-top: var(--hairline);
+  border-top: var(--rule-strong);
 }
 
 .section-aside {
@@ -366,7 +359,7 @@ html:lang(ja) .arrow-link {
   font-size: 0.75rem;
   font-weight: 400;
   letter-spacing: 0.08em;
-  color: var(--color-muted);
+  color: var(--color-accent);
   white-space: nowrap;
 }
 
