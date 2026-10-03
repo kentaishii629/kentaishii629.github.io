@@ -44,7 +44,6 @@ export const ja = {
     empty: '該当する論文はありません。',
   },
   patents: {
-    filed: '出願',
     granted: '登録',
     pending: '出願中',
     number: '公開番号',
@@ -55,13 +54,11 @@ export const ja = {
     assignee: '出願人',
     inventors: '発明者',
     link: '特許情報',
-    summaryLabel: '件数',
   },
   about: {
     affiliation: '所属',
   },
   contact: {
-    lead: '研究に関するご連絡は下記までお願いします。',
     email: 'Email',
     links: {
       researchmap: 'researchmap',
@@ -70,10 +67,6 @@ export const ja = {
       github: 'GitHub',
     },
     emailAt: '[at]',
-  },
-  counts: {
-    research: 'テーマ',
-    publications: '件',
   },
   footer: {
     rights: 'All rights reserved.',

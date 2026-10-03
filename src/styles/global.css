@@ -369,9 +369,6 @@ html:lang(ja) .arrow-link {
   white-space: nowrap;
 }
 
-.section-meta {
-  margin-top: var(--sp-2);
-}
 
 .section-body {
   min-width: 0;

@@ -46,7 +46,6 @@ export const en: Dictionary = {
     empty: 'No publications in this category.',
   },
   patents: {
-    filed: 'Filed',
     granted: 'Granted',
     pending: 'Pending',
     number: 'Publication No.',
@@ -57,13 +56,11 @@ export const en: Dictionary = {
     assignee: 'Assignee',
     inventors: 'Inventors',
     link: 'Patent record',
-    summaryLabel: 'Summary',
   },
   about: {
     affiliation: 'Affiliation',
   },
   contact: {
-    lead: 'For research inquiries, please reach me via the channels below.',
     email: 'Email',
     links: {
       researchmap: 'researchmap',
@@ -72,10 +69,6 @@ export const en: Dictionary = {
       github: 'GitHub',
     },
     emailAt: '[at]',
-  },
-  counts: {
-    research: 'themes',
-    publications: 'entries',
   },
   footer: {
     rights: 'All rights reserved.',

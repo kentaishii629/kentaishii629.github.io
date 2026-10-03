@@ -36,8 +36,6 @@ const links = LINK_ORDER.filter((key) => profile.links[key]).map((key) => ({
 }));
 ---
 
-<p class="lead">{dict.contact.lead}</p>
-
 <ul class="contact">
   {
     hasEmail && (
@@ -75,12 +73,6 @@ const links = LINK_ORDER.filter((key) => profile.links[key]).map((key) => ({
 </script>
 
 <style>
-  .lead {
-    font-size: 1.0625rem;
-    line-height: 1.8;
-    margin-bottom: var(--sp-4);
-    text-wrap: pretty;
-  }
 
   .contact {
     border-bottom: var(--hairline);
@@ -115,9 +107,6 @@ const links = LINK_ORDER.filter((key) => profile.links[key]).map((key) => ({
   }
 
   @media (min-width: 768px) {
-    .lead {
-      font-size: 1.125rem;
-    }
 
     .contact li {
       grid-template-columns: 10rem minmax(0, 1fr);

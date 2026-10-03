@@ -7,9 +7,6 @@ affiliations:
   - ja: 東京大学大学院 工学系研究科 建築学専攻 博士課程
     en: Ph.D. Candidate, Department of Architecture, The University of Tokyo
   # TODO: 勤務先の記載は本人が社内規程を確認後に追加
-tagline:
-  ja: 都市の人の動きを、データとモデルで読み解く。
-  en: Reading how people move through cities, with data and models.
 # bio: 空行で段落を分ける。段落内の改行は、日本語はそのまま連結、英語は空白で連結される。
 bio:
   ja: |-
@@ -47,11 +44,7 @@ links:
   orcid: "" # TODO: ORCID の URL を設定
   github: https://github.com/kentaishii629
 email: "" # TODO: 連絡先メールアドレスを設定（表示時は簡易難読化される）
-# 特許の件数サマリ。省略すると patents.yaml の status から自動集計する（登録 / 出願中）。
-patentSummary:
-  filed: 10+
-  granted: 5
-  asOf: { ja: 2026年9月時点, en: as of September 2026 }
-  note:
-    ja: 株式会社日立製作所において発明者として出願。主なものを以下に挙げる。
-    en: Filed as an inventor at Hitachi, Ltd. Selected applications are listed below.
+# 特許セクションの冒頭に添える一文（任意）。
+patentNote:
+  ja: 株式会社日立製作所において発明者として出願。主なものを以下に挙げる。
+  en: Filed as an inventor at Hitachi, Ltd. Selected applications are listed below.

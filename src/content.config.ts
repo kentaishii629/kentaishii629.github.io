@@ -51,9 +51,6 @@ const urlOrEmpty = z.union([z.literal(''), z.url()]).default('');
 /** YYYY-MM-DD の日付。YAML で引用符なしに書くと Date になるので文字列に戻す。 */
 const isoDate = z.union([z.iso.date(), z.date().transform((d) => d.toISOString().slice(0, 10))]);
 
-/** 件数の表記。数値のほか "10+" のような文字列も可。 */
-const countLike = z.union([z.number().int().nonnegative(), z.string().min(1)]);
-
 const profile = defineCollection({
   // 単一オブジェクトの YAML は glob() で 1 エントリとして読み込む（id は "profile"）。
   loader: glob({ pattern: 'profile.yaml', base: './src/data' }),
@@ -61,7 +58,7 @@ const profile = defineCollection({
     name: localized,
     title: localized,
     affiliations: z.array(localized).default([]),
-    tagline: localized,
+    tagline: localized.optional(),
     bio: localized,
     research: z
       .array(
@@ -80,15 +77,8 @@ const profile = defineCollection({
       })
       .prefault({}),
     email: z.union([z.literal(''), z.email()]).default(''),
-    /** 特許の件数サマリ。省略時は patents.yaml から自動集計する。 */
-    patentSummary: z
-      .strictObject({
-        filed: countLike,
-        granted: countLike,
-        asOf: localized.optional(),
-        note: localized.optional(),
-      })
-      .optional(),
+    /** 特許セクションの冒頭に添える一文（出願人・掲載方針など）。 */
+    patentNote: localized.optional(),
   }),
 });
 

@@ -3,39 +3,20 @@ import type { Lang } from '../i18n/utils';
 import { t, pick, pickedLang, isSelf } from '../i18n/utils';
 import type { CollectionEntry } from 'astro:content';
 
-type PatentSummary = CollectionEntry<'profile'>['data']['patentSummary'];
-
 interface Props {
   lang: Lang;
   /** 年の降順に並んだ特許リスト。 */
   patents: CollectionEntry<'patents'>[];
   /** 本人名の表記ゆれ集合（太字判定に使う）。 */
   selfVariants: Set<string>;
-  /** 明示的な件数サマリ（profile.yaml の patentSummary）。省略時はデータから自動集計する。 */
-  summary?: PatentSummary | undefined;
+  /** セクション冒頭の一文（profile.yaml の patentNote）。 */
+  note?: CollectionEntry<'profile'>['data']['patentNote'];
 }
 
-const { lang, patents, selfVariants, summary } = Astro.props;
+const { lang, patents, selfVariants, note: noteSource } = Astro.props;
 const dict = t(lang);
-
-// 件数はデータから自動集計する（patentSummary があればそちらを優先）。
-const counts = {
-  granted: patents.filter((p) => p.data.status === 'granted').length,
-  pending: patents.filter((p) => p.data.status === 'pending').length,
-};
-const stats: { label: string; value: string | number }[] = summary
-  ? [
-      { label: dict.patents.filed, value: summary.filed },
-      { label: dict.patents.granted, value: summary.granted },
-    ]
-  : [
-      { label: dict.patents.granted, value: counts.granted },
-      { label: dict.patents.pending, value: counts.pending },
-    ];
-const asOf = summary?.asOf ? pick(summary.asOf, lang) : '';
-const asOfLang = summary?.asOf ? pickedLang(summary.asOf, lang) : lang;
-const note = summary?.note ? pick(summary.note, lang) : '';
-const noteLang = summary?.note ? pickedLang(summary.note, lang) : lang;
+const note = noteSource ? pick(noteSource, lang) : '';
+const noteLang = noteSource ? pickedLang(noteSource, lang) : lang;
 
 /** 詳細行（値があるものだけ）。 */
 function details(data: CollectionEntry<'patents'>['data']) {
@@ -50,19 +31,6 @@ function details(data: CollectionEntry<'patents'>['data']) {
 }
 ---
 
-<div class="summary" role="group" aria-label={dict.patents.summaryLabel}>
-  <dl class="stats">
-    {
-      stats.map((s) => (
-        <div class="stat">
-          <dt class="label">{s.label}</dt>
-          <dd class="mono">{s.value}</dd>
-        </div>
-      ))
-    }
-  </dl>
-  {asOf && <p class="asof muted" lang={asOfLang !== lang ? asOfLang : undefined}>{asOf}</p>}
-</div>
 {note && <p class="note muted" lang={noteLang !== lang ? noteLang : undefined}>{note}</p>}
 
 <ol class="patents">
@@ -129,38 +97,10 @@ function details(data: CollectionEntry<'patents'>['data']) {
 
 <style>
   /* Stat strip: large mono figures with small labels */
-  .summary {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-end;
-    gap: var(--sp-2) var(--sp-4);
-    margin-bottom: var(--sp-2);
-  }
 
-  .stats {
-    display: flex;
-    gap: var(--sp-5);
-  }
 
-  .stat {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-  }
 
-  .stat dd {
-    font-size: 2rem;
-    font-weight: 500;
-    letter-spacing: -0.03em;
-    line-height: 1;
-    color: var(--color-fg);
-  }
 
-  .asof {
-    font-size: 0.6875rem;
-    letter-spacing: 0.04em;
-    padding-bottom: 0.125rem;
-  }
 
   .note {
     font-size: 0.9375rem;
@@ -271,9 +211,6 @@ function details(data: CollectionEntry<'patents'>['data']) {
   }
 
   @media (min-width: 768px) {
-    .summary {
-      margin-bottom: var(--sp-2);
-    }
 
     .stat dd {
       font-size: 2.5rem;

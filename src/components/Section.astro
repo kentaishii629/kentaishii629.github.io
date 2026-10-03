@@ -7,11 +7,9 @@ interface Props {
   id: string;
   number: string;
   title: string;
-  /** 見出しの下に添える小さなメタ情報（件数など）。 */
-  meta?: string | undefined;
 }
 
-const { id, number, title, meta } = Astro.props;
+const { id, number, title } = Astro.props;
 const headingId = `${id}-heading`;
 ---
 
@@ -23,7 +21,6 @@ const headingId = `${id}-heading`;
           <span class="num" aria-hidden="true">{number} —</span>
           <span>{title}</span>
         </h2>
-        {meta && <p class="section-meta label">{meta}</p>}
       </div>
       <div class="section-body">
         <slot />

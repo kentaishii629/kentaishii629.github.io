@@ -66,7 +66,6 @@ const jsonLd = {
       id="research"
       number={dict.sections.research.number}
       title={dict.sections.research.title}
-      meta={`${profile.research.length} ${dict.counts.research}`}
     >
       <ResearchList lang={lang} items={profile.research} />
     </Section>
@@ -74,12 +73,11 @@ const jsonLd = {
       id="publications"
       number={dict.sections.publications.number}
       title={dict.sections.publications.title}
-      meta={`${pubs.length} ${dict.counts.publications}`}
     >
       <PubList lang={lang} pubs={pubs} selfVariants={selfVariants} />
     </Section>
     <Section id="patents" number={dict.sections.patents.number} title={dict.sections.patents.title}>
-      <PatentList lang={lang} patents={patents} selfVariants={selfVariants} summary={profile.patentSummary} />
+      <PatentList lang={lang} patents={patents} selfVariants={selfVariants} note={profile.patentNote} />
     </Section>
     <Section id="about" number={dict.sections.about.number} title={dict.sections.about.title}>
       <About lang={lang} profile={profile} />

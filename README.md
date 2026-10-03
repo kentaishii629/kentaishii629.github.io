@@ -68,12 +68,11 @@ npm run check      # 型チェック（astro check）
   link: https://patents.google.com/patent/JP2026000001A
 ```
 
-件数サマリは `profile.yaml` の `patentSummary`（出願件数・登録件数・時点）を表示する。
-`patentSummary` を省略すると、`status` から「登録 / 出願中」の件数を自動集計する。
+セクション冒頭の一文は `profile.yaml` の `patentNote`（任意）に書く。
 
 ### プロフィール（`src/data/profile.yaml`）
 
-名前・肩書き・所属・研究テーマ・リンク・メールアドレスを書く。多言語フィールドは `{ ja, en }` 形式で、片方が空ならもう片方で代替表示される。
+名前・肩書き・所属・研究テーマ・リンク・メールアドレス・特許の注記（`patentNote`）を書く。多言語フィールドは `{ ja, en }` 形式で、片方が空ならもう片方で代替表示される。
 
 本人名の太字判定には `name` の `ja` / `en` が使われる（`Kenta Ishii`, `Ishii, K.`, `K. Ishii` などの表記ゆれにも対応）。
 
