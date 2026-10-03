@@ -145,10 +145,10 @@ h3 {
 }
 
 h1 {
-  font-size: clamp(3.5rem, 2.5rem + 4.5vw, 6rem);
+  font-size: clamp(1.875rem, 1.5rem + 1.4vw, 2.5rem);
   font-weight: 500;
-  letter-spacing: -0.03em;
-  line-height: 1.02;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
 }
 
 h2 {
@@ -170,13 +170,23 @@ b {
   font-weight: 600;
 }
 
+/* 日本語ページ: 見出しはプロポーショナル詰め（palt）+ わずかに広い字間、本文は行間を広めに */
+html:lang(ja) body {
+  line-height: 1.8;
+}
+
+html:lang(ja) :is(h1, h2, h3) {
+  font-feature-settings: 'palt' 1, 'kern' 1;
+  letter-spacing: 0.01em;
+}
+
 .mono {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.01em;
 }
 
-/* Small uppercase mono label used for eyebrows, gutters and meta */
+/* Small uppercase mono label used for eyebrows, gutters and meta (Latin) */
 .label {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
@@ -184,6 +194,21 @@ b {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-muted);
+}
+
+/* 日本語ページでは等幅書体に日本語グリフがないため、ラベル類は本文書体で組む（等幅は数字・コードのみ） */
+html:lang(ja) :is(.label, .pill, .arrow-link) {
+  font-family: var(--font-sans);
+  text-transform: none;
+  letter-spacing: 0.04em;
+}
+
+html:lang(ja) .label {
+  font-size: 0.75rem;
+}
+
+html:lang(ja) .arrow-link {
+  font-size: 0.8125rem;
 }
 
 .muted {

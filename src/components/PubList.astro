@@ -23,11 +23,11 @@ const listId = 'publications-list';
 {
   presentTypes.length > 1 && (
     <div class="tabs" role="group" aria-label={dict.publications.filterLabel} data-pub-filter={listId}>
-      <button type="button" class="tab mono" data-filter="all" aria-pressed="true">
+      <button type="button" class="tab" data-filter="all" aria-pressed="true">
         {dict.publications.types.all}
       </button>
       {presentTypes.map((type) => (
-        <button type="button" class="tab mono" data-filter={type} aria-pressed="false">
+        <button type="button" class="tab" data-filter={type} aria-pressed="false">
           {dict.publications.types[type]}
         </button>
       ))}
@@ -118,7 +118,7 @@ const listId = 'publications-list';
   .tab {
     position: relative;
     min-height: 44px;
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
     letter-spacing: 0.04em;
     color: var(--color-muted);
     transition: color 200ms var(--ease);

@@ -61,7 +61,7 @@ function details(data: CollectionEntry<'patents'>['data']) {
       ))
     }
   </dl>
-  {asOf && <p class="asof mono muted" lang={asOfLang !== lang ? asOfLang : undefined}>{asOf}</p>}
+  {asOf && <p class="asof muted" lang={asOfLang !== lang ? asOfLang : undefined}>{asOf}</p>}
 </div>
 {note && <p class="note muted" lang={noteLang !== lang ? noteLang : undefined}>{note}</p>}
 

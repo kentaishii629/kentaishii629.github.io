@@ -37,12 +37,12 @@ const affiliations = profile.affiliations.map((a) => ({ text: pick(a, lang), lan
     </div>
     <nav class="toc grid-aside" aria-label={dict.hero.scrollHint}>
       <p class="toc-label label" aria-hidden="true">{dict.hero.scrollHint}</p>
-      <ol class="mono">
+      <ol>
         {
           SECTION_IDS.map((id) => (
             <li>
               <a href={`#${id}`}>
-                <span class="toc-num" aria-hidden="true">
+                <span class="toc-num mono" aria-hidden="true">
                   {dict.sections[id].number}
                 </span>
                 <span class="toc-title">{dict.sections[id].title}</span>
@@ -59,7 +59,7 @@ const affiliations = profile.affiliations.map((a) => ({ text: pick(a, lang), lan
   .hero-inner {
     display: flex;
     flex-direction: column;
-    min-height: 100svh;
+    min-height: 80svh;
     padding-top: calc(var(--header-h) + var(--sp-6));
   }
 
@@ -74,7 +74,6 @@ const affiliations = profile.affiliations.map((a) => ({ text: pick(a, lang), lan
 
   h1 {
     margin-bottom: var(--sp-4);
-    margin-left: -0.03em;
   }
 
   .hero-grid {
@@ -82,18 +81,22 @@ const affiliations = profile.affiliations.map((a) => ({ text: pick(a, lang), lan
   }
 
   .tagline {
-    font-size: clamp(1.375rem, 1.1rem + 1.2vw, 1.875rem);
+    font-size: clamp(1.5rem, 1.2rem + 1.4vw, 2.125rem);
     font-weight: 300;
-    letter-spacing: -0.015em;
-    line-height: 1.4;
+    letter-spacing: -0.01em;
+    line-height: 1.45;
     max-width: 22em;
     text-wrap: pretty;
   }
 
+  :global(html:lang(ja)) .tagline {
+    font-feature-settings: 'palt' 1, 'kern' 1;
+    letter-spacing: 0.01em;
+  }
+
   .affiliations {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.02em;
+    font-size: 0.8125rem;
+    letter-spacing: 0.01em;
     line-height: 1.7;
     color: var(--color-muted);
     word-break: keep-all;
@@ -101,14 +104,14 @@ const affiliations = profile.affiliations.map((a) => ({ text: pick(a, lang), lan
   }
 
   .affiliations li {
-    padding-left: 1.5ch;
-    text-indent: -1.5ch;
+    padding-left: 1.75em;
+    text-indent: -1.75em;
   }
 
   .affiliations li::before {
     content: '\2014';
     display: inline-block;
-    width: 1.5ch;
+    width: 1.75em;
     text-indent: 0;
     color: var(--color-faint);
   }
@@ -130,7 +133,7 @@ const affiliations = profile.affiliations.map((a) => ({ text: pick(a, lang), lan
   /* モバイルでは目次らしく 1 行 1 項目、罫線で区切る */
   .toc ol {
     display: grid;
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
   }
 
   .toc li + li {
@@ -181,7 +184,7 @@ const affiliations = profile.affiliations.map((a) => ({ text: pick(a, lang), lan
     }
 
     h1 {
-      margin-bottom: var(--sp-8);
+      margin-bottom: var(--sp-6);
     }
 
     /* 本文グリッドと同じ列構成: 左に所属（mono）、右にステートメント */
