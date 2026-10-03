@@ -1,0 +1,81 @@
+# 特許リスト。年（year: 通常は出願年）の降順に自動で並ぶ（同じ年の中はこのファイルの記載順）。
+# status: granted | pending（任意。不明なら省略）
+# inventors に含まれる本人名（profile.yaml の name）は自動で太字になる。
+# 日付は "YYYY-MM-DD"。link は Google Patents の公開情報ページ。
+# 件数サマリ（出願 / 登録）は profile.yaml の patentSummary を表示し、省略時はこのファイルから自動集計する。
+# TODO: 各件の登録/出願中の別（status）と共同発明者（inventors）を確認して追記する。
+- id: jp2025173297a
+  year: 2024
+  title:
+    ja: 広告支援装置および広告支援方法
+    en: Advertisement Support Device and Advertisement Support Method
+  number: JP2025173297A
+  jurisdictions: [JP]
+  priorityDate: "2024-05-14"
+  filedDate: "2024-05-14"
+  publishedDate: "2025-11-27"
+  assignee: { ja: 株式会社日立製作所, en: "Hitachi, Ltd." }
+  summary:
+    ja: 施設運営者が保有する売上データと来訪者データの相関を分析し、広告戦略を支援する。
+    en: Supports advertising strategy by analyzing the correlation between sales data held by a facility operator and visitor data.
+  link: https://patents.google.com/patent/JP2025173297A
+- id: jp2025062957a
+  year: 2023
+  title:
+    ja: 活動特徴抽出装置および活動特徴抽出方法
+    en: Activity Feature Extraction Device and Activity Feature Extraction Method
+  number: JP2025062957A
+  jurisdictions: [JP]
+  priorityDate: "2023-10-03"
+  filedDate: "2023-10-03"
+  publishedDate: "2025-04-15"
+  assignee: { ja: 株式会社日立製作所, en: "Hitachi, Ltd." }
+  summary:
+    ja: 人が活発に活動する時間・場所の実態に対応した特徴を持つ活動群を抽出し、施策立案者が活動の類型を適切に検討できるようにする。
+    en: Extracts activity groups whose features correspond to the actual state of the time and place where people actively act, enabling a policy maker to examine activity types appropriately.
+  link: https://patents.google.com/patent/JP2025062957A
+- id: jp2025101114a
+  year: 2023
+  title:
+    ja: 情報提供装置および情報提供方法
+    en: Information Providing Device and Information Providing Method
+  number: JP2025101114A
+  jurisdictions: [JP, EP]
+  priorityDate: "2023-12-25"
+  filedDate: "2023-12-25"
+  publishedDate: "2025-07-07"
+  assignee: { ja: 株式会社日立製作所, en: "Hitachi, Ltd." }
+  summary:
+    ja: ユーザーが選択した訪問先情報と、訪問を希望する訪問先情報を保持し、関係のあるユーザー同士が同じ訪問先を一緒に訪れることを促進する。
+    en: Promotes a user and a related user visiting a destination together, using selection information and visit-desire information held for each user.
+  link: https://patents.google.com/patent/JP2025101114A
+- id: jp2023172113a
+  year: 2022
+  title:
+    ja: 人流予測装置、人流予測プログラム、および人流予測方法
+    en: People Flow Prediction Device, People Flow Prediction Program, and People Flow Prediction Method
+  number: JP2023172113A
+  jurisdictions: [JP, US, WO]
+  priorityDate: "2022-05-23"
+  filedDate: "2022-05-23"
+  publishedDate: "2023-12-06"
+  assignee: { ja: 株式会社日立製作所, en: "Hitachi, Ltd." }
+  summary:
+    ja: 限られた期間のみ実施される施策が人流に与える効果を適切に評価する。予測対象エリア内の発生交通量を取得し、人流を予測する。
+    en: Appropriately evaluates the effect on people flow of measures implemented only during limited time periods. A server acquires generated traffic volume within a prediction target area and predicts the resulting flow.
+  link: https://patents.google.com/patent/JP2023172113A
+- id: jp2024074614a
+  year: 2022
+  title:
+    ja: 不動産開発計画支援装置、不動産開発計画支援方法
+    en: Real Estate Development Planning Support Device and Method
+  number: JP2024074614A
+  jurisdictions: [JP]
+  priorityDate: "2022-11-21"
+  filedDate: "2022-11-21"
+  publishedDate: "2024-05-31"
+  assignee: { ja: 株式会社日立製作所, en: "Hitachi, Ltd." }
+  summary:
+    ja: 不動産開発計画の段階で、類似の不動産を参照し、立地エリアに依存する運用時の評価指標を精度よく予測する。
+    en: Accurately predicts area-dependent evaluation indexes for a planned real estate development at the planning stage, by referencing similar existing developments.
+  link: https://patents.google.com/patent/JP2024074614A

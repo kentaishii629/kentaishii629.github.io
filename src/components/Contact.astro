@@ -1,0 +1,113 @@
+---
+import type { Lang } from '../i18n/utils';
+import { t } from '../i18n/utils';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  lang: Lang;
+  profile: CollectionEntry<'profile'>['data'];
+}
+
+const { lang, profile } = Astro.props;
+const dict = t(lang);
+
+// メールは簡易難読化: ユーザ名とドメインを反転してデータ属性に持たせ、表示時に JS で組み立てる。
+const reverse = (s: string) => Array.from(s).reverse().join('');
+const [emailUser = '', emailDomain = ''] = profile.email ? profile.email.split('@') : [];
+const hasEmail = Boolean(emailUser && emailDomain);
+
+const LINK_ORDER = ['researchmap', 'scholar', 'orcid', 'github'] as const;
+const links = LINK_ORDER.filter((key) => profile.links[key]).map((key) => ({
+  key,
+  href: profile.links[key],
+  label: dict.contact.links[key],
+}));
+
+// アイコンはインライン SVG のみ（24x24 の stroke パス）。
+const ICONS: Record<(typeof LINK_ORDER)[number] | 'mail', string> = {
+  mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
+  researchmap:
+    '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
+  scholar: '<path d="m2 10 10-5 10 5-10 5z"/><path d="M6 12.5V17c3 2.5 9 2.5 12 0v-4.5M22 10v6"/>',
+  orcid: '<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="11" r="2.5"/><path d="M5.5 17.5c.8-2 2-3 3.5-3s2.7 1 3.5 3M15 9h3M15 13h3"/>',
+  github: '<path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/>',
+};
+---
+
+<p class="lead">{dict.contact.lead}</p>
+
+<ul class="contact">
+  {
+    hasEmail && (
+      <li>
+        <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={ICONS.mail} />
+        <span class="label mono muted">{dict.contact.email}</span>
+        <span class="email" data-u={reverse(emailUser)} data-d={reverse(emailDomain)}>
+          {emailUser} {dict.contact.emailAt} {emailDomain}
+        </span>
+      </li>
+    )
+  }
+  {
+    links.map((link) => (
+      <li>
+        <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={ICONS[link.key]} />
+        <a class="link" href={link.href} rel="me noopener">
+          {link.label}
+        </a>
+      </li>
+    ))
+  }
+</ul>
+
+<script>
+  // 難読化したメールアドレスを復元して mailto リンクに置き換える。
+  const reverse = (s: string) => Array.from(s).reverse().join('');
+  for (const el of document.querySelectorAll<HTMLElement>('.email[data-u][data-d]')) {
+    const address = `${reverse(el.dataset.u ?? '')}@${reverse(el.dataset.d ?? '')}`;
+    const a = document.createElement('a');
+    a.className = 'link';
+    a.href = `mailto:${address}`;
+    a.textContent = address;
+    el.replaceWith(a);
+  }
+</script>
+
+<style>
+  .lead {
+    margin-bottom: 1.5rem;
+    text-wrap: pretty;
+  }
+
+  .contact li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 48px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .contact li:last-child {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .icon {
+    flex: none;
+    color: var(--color-muted);
+  }
+
+  .label {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+  }
+
+  .email {
+    overflow-wrap: anywhere;
+  }
+
+  .contact a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+</style>

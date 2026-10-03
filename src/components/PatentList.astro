@@ -1,0 +1,237 @@
+---
+import type { Lang } from '../i18n/utils';
+import { t, pick, pickedLang, isSelf } from '../i18n/utils';
+import type { CollectionEntry } from 'astro:content';
+
+type PatentSummary = CollectionEntry<'profile'>['data']['patentSummary'];
+
+interface Props {
+  lang: Lang;
+  /** 年の降順に並んだ特許リスト。 */
+  patents: CollectionEntry<'patents'>[];
+  /** 本人名の表記ゆれ集合（太字判定に使う）。 */
+  selfVariants: Set<string>;
+  /** 明示的な件数サマリ（profile.yaml の patentSummary）。省略時はデータから自動集計する。 */
+  summary?: PatentSummary | undefined;
+}
+
+const { lang, patents, selfVariants, summary } = Astro.props;
+const dict = t(lang);
+
+// 件数はデータから自動集計する（patentSummary があればそちらを優先）。
+const counts = {
+  granted: patents.filter((p) => p.data.status === 'granted').length,
+  pending: patents.filter((p) => p.data.status === 'pending').length,
+};
+const note = summary?.note ? pick(summary.note, lang) : '';
+const noteLang = summary?.note ? pickedLang(summary.note, lang) : lang;
+
+/** 詳細行（値があるものだけ）。 */
+function details(data: CollectionEntry<'patents'>['data']) {
+  const rows: { label: string; value: string; lang?: Lang }[] = [];
+  if (data.number) rows.push({ label: dict.patents.number, value: data.number });
+  if (data.jurisdictions?.length) rows.push({ label: dict.patents.jurisdictions, value: data.jurisdictions.join(', ') });
+  if (data.priorityDate) rows.push({ label: dict.patents.priorityDate, value: data.priorityDate });
+  if (data.filedDate) rows.push({ label: dict.patents.filedDate, value: data.filedDate });
+  if (data.publishedDate) rows.push({ label: dict.patents.publishedDate, value: data.publishedDate });
+  if (data.assignee) rows.push({ label: dict.patents.assignee, value: pick(data.assignee, lang), lang: pickedLang(data.assignee, lang) });
+  return rows;
+}
+---
+
+<p class="summary mono" aria-label={dict.patents.summaryLabel}>
+  {
+    summary ? (
+      <>
+        <span>{dict.patents.filed} <b>{summary.filed}</b></span>
+        <span class="dot" aria-hidden="true">·</span>
+        <span>{dict.patents.granted} <b>{summary.granted}</b></span>
+        {summary.asOf && <span class="asof">({pick(summary.asOf, lang)})</span>}
+      </>
+    ) : (
+      <>
+        <span>{dict.patents.granted} <b>{counts.granted}</b></span>
+        <span class="dot" aria-hidden="true">·</span>
+        <span>{dict.patents.pending} <b>{counts.pending}</b></span>
+      </>
+    )
+  }
+</p>
+{note && <p class="note" lang={noteLang !== lang ? noteLang : undefined}>{note}</p>}
+
+<ol class="patents">
+  {
+    patents.map(({ data }) => {
+      const titleLang = pickedLang(data.title, lang);
+      const rows = details(data);
+      const summaryLang = data.summary ? pickedLang(data.summary, lang) : lang;
+      return (
+        <li>
+          <span class="mono year">{data.year}</span>
+          <div class="body">
+            <h3 lang={titleLang !== lang ? titleLang : undefined}>{pick(data.title, lang)}</h3>
+            {data.status && (
+              <p class="meta">
+                <span class:list={['status', 'mono', data.status]}>{dict.patents[data.status]}</span>
+              </p>
+            )}
+            {data.summary && (
+              <p class="desc" lang={summaryLang !== lang ? summaryLang : undefined}>
+                {pick(data.summary, lang)}
+              </p>
+            )}
+            {rows.length > 0 && (
+              <dl class="details">
+                {rows.map((row) => (
+                  <>
+                    <dt class="mono">{row.label}</dt>
+                    <dd class:list={{ mono: row.lang === undefined }} lang={row.lang && row.lang !== lang ? row.lang : undefined}>
+                      {row.value}
+                    </dd>
+                  </>
+                ))}
+              </dl>
+            )}
+            {data.inventors && (
+              <p class="inventors muted">
+                <span class="sr-only">{dict.patents.inventors}: </span>
+                {data.inventors.map((inventor, i) => (
+                  <>
+                    {isSelf(inventor, selfVariants) ? <strong>{inventor}</strong> : inventor}
+                    {i < (data.inventors?.length ?? 0) - 1 ? ', ' : ''}
+                  </>
+                ))}
+              </p>
+            )}
+            {data.link && (
+              <p class="links mono">
+                <a class="link" href={data.link} rel="noopener">
+                  {dict.patents.link}
+                </a>
+              </p>
+            )}
+          </div>
+        </li>
+      );
+    })
+  }
+</ol>
+
+<style>
+  .summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.875rem;
+    color: var(--color-muted);
+  }
+
+  .summary b {
+    font-weight: 500;
+    color: var(--color-fg);
+  }
+
+  .asof {
+    font-size: 0.75rem;
+  }
+
+  .note {
+    font-size: 0.9375rem;
+    color: var(--color-muted);
+    margin-bottom: 1.75rem;
+  }
+
+  .patents > li {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.25rem 1.5rem;
+    padding-block: 1.5rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .patents > li:last-child {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .year {
+    font-size: 0.8125rem;
+    color: var(--color-muted);
+    padding-top: 0.3rem;
+  }
+
+  h3 {
+    margin-bottom: 0.5rem;
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .status {
+    padding: 0 0.5rem;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    line-height: 1.7;
+    color: var(--color-muted);
+  }
+
+  .status.granted {
+    color: var(--color-accent);
+  }
+
+  .desc {
+    font-size: 0.9375rem;
+    margin-bottom: 0.75rem;
+    text-wrap: pretty;
+  }
+
+  .details {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.125rem 1rem;
+    font-size: 0.8125rem;
+    line-height: 1.6;
+  }
+
+  .details dt {
+    color: var(--color-muted);
+    letter-spacing: 0.02em;
+  }
+
+  .details dd {
+    margin: 0;
+  }
+
+  .inventors {
+    font-size: 0.9375rem;
+    margin-top: 0.5rem;
+  }
+
+  .inventors strong {
+    font-weight: 600;
+    color: var(--color-fg);
+  }
+
+  .links {
+    margin-top: 0.5rem;
+    font-size: 0.8125rem;
+  }
+
+  .links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+  }
+
+  @media (min-width: 768px) {
+    .patents > li {
+      grid-template-columns: 4.5rem 1fr;
+    }
+  }
+</style>

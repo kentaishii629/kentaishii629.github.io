@@ -1,0 +1,55 @@
+---
+/**
+ * "/" の言語振り分けページ。
+ * navigator.language が "ja" で始まれば /ja/、それ以外は /en/ へ遷移する（ハッシュは維持）。
+ * JS 無効時はリンクから選択する。
+ */
+import Base from '../layouts/Base.astro';
+import { t } from '../i18n/utils';
+import { BASE, localePath } from '../lib/site';
+
+const dict = t('ja');
+const jaUrl = localePath('ja');
+const enUrl = localePath('en');
+---
+
+<Base lang="ja" title={dict.redirect.title} description={dict.redirect.description} path={BASE}>
+  <script is:inline define:vars={{ jaUrl, enUrl }}>
+    var language = (navigator.language || '').toLowerCase();
+    location.replace((language.indexOf('ja') === 0 ? jaUrl : enUrl) + location.hash);
+  </script>
+  <main id="main" class="container chooser">
+    <h1>{dict.redirect.title}</h1>
+    <noscript>
+      <p>{dict.redirect.noscript}</p>
+    </noscript>
+    <p class="muted">{dict.redirect.choose}</p>
+    <ul class="choices mono">
+      <li><a class="link" href={jaUrl} hreflang="ja" lang="ja">{dict.redirect.ja}</a></li>
+      <li><a class="link" href={enUrl} hreflang="en" lang="en">{dict.redirect.en}</a></li>
+    </ul>
+  </main>
+</Base>
+
+<style>
+  .chooser {
+    padding-block: 6rem 4rem;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .choices {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1.5rem;
+  }
+
+  .choices a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+</style>

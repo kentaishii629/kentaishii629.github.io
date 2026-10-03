@@ -1,0 +1,39 @@
+---
+/** 見出し付きの共通セクションラッパー。番号は JetBrains Mono で "01 —" の形。 */
+interface Props {
+  id: string;
+  number: string;
+  title: string;
+}
+
+const { id, number, title } = Astro.props;
+const headingId = `${id}-heading`;
+---
+
+<section id={id} class="section reveal" aria-labelledby={headingId}>
+  <div class="container">
+    <h2 id={headingId} class="section-title">
+      <span class="mono num" aria-hidden="true">{number} —</span>
+      <span>{title}</span>
+    </h2>
+    <div class="section-body">
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style>
+  .section-title {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin-bottom: 2.25rem;
+  }
+
+  .num {
+    font-size: 0.8125rem;
+    font-weight: 400;
+    color: var(--color-muted);
+    letter-spacing: 0.08em;
+  }
+</style>

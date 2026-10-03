@@ -1,0 +1,127 @@
+---
+import type { Lang } from '../i18n/utils';
+import { t, pick, pickedLang } from '../i18n/utils';
+import { SECTION_IDS } from '../lib/site';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  lang: Lang;
+  profile: CollectionEntry<'profile'>['data'];
+}
+
+const { lang, profile } = Astro.props;
+const dict = t(lang);
+const name = pick(profile.name, lang);
+const title = pick(profile.title, lang);
+const tagline = pick(profile.tagline, lang);
+const affiliations = profile.affiliations.map((a) => ({ text: pick(a, lang), lang: pickedLang(a, lang) }));
+---
+
+<section class="hero" aria-labelledby="hero-name">
+  <div class="container">
+    <p class="mono eyebrow">{title}</p>
+    <h1 id="hero-name">{name}</h1>
+    {
+      affiliations.length > 0 && (
+        <ul class="affiliations">
+          {affiliations.map((a) => (
+            <li lang={a.lang !== lang ? a.lang : undefined}>{a.text}</li>
+          ))}
+        </ul>
+      )
+    }
+    <p class="tagline">{tagline}</p>
+    <nav class="toc" aria-label={dict.hero.scrollHint}>
+      <ol class="mono">
+        {
+          SECTION_IDS.map((id) => (
+            <li>
+              <a href={`#${id}`}>
+                <span class="toc-num" aria-hidden="true">
+                  {dict.sections[id].number}
+                </span>
+                {dict.sections[id].title}
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </nav>
+  </div>
+</section>
+
+<style>
+  .hero {
+    display: flex;
+    align-items: center;
+    min-height: 80svh;
+    padding-block: calc(var(--header-h) + 3rem) 3rem;
+  }
+
+  .eyebrow {
+    font-size: 0.8125rem;
+    color: var(--color-muted);
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    margin-bottom: 1.25rem;
+  }
+
+  .affiliations {
+    color: var(--color-muted);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    margin-bottom: 1.75rem;
+  }
+
+  .affiliations li + li {
+    margin-top: 0.25rem;
+  }
+
+  .tagline {
+    font-size: 1.125rem;
+    max-width: 36em;
+    margin-bottom: 2.5rem;
+    text-wrap: pretty;
+  }
+
+  .toc ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.5rem;
+    font-size: 0.8125rem;
+  }
+
+  .toc a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    gap: 0.5rem;
+    color: var(--color-muted);
+    transition: color 200ms var(--ease);
+  }
+
+  .toc a:hover,
+  .toc a:focus-visible {
+    color: var(--color-fg);
+  }
+
+  .toc-num {
+    color: var(--color-accent);
+  }
+
+  @media (min-width: 768px) {
+    .hero {
+      min-height: 85svh;
+    }
+
+    .eyebrow {
+      font-size: 0.875rem;
+    }
+
+    .tagline {
+      font-size: 1.25rem;
+    }
+  }
+</style>

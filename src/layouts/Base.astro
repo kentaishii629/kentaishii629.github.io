@@ -1,0 +1,83 @@
+---
+// フォントは @fontsource で自己ホスト。必要なサブセット・ウェイトだけを読み込む。
+// Noto Sans JP は unicode-range で分割された 400.css / 600.css を使い、使用グリフ分だけがダウンロードされる。
+import '@fontsource/inter/latin-400.css';
+import '@fontsource/inter/latin-500.css';
+import '@fontsource/inter/latin-600.css';
+import '@fontsource/inter/latin-ext-400.css';
+import '@fontsource/inter/latin-ext-500.css';
+import '@fontsource/inter/latin-ext-600.css';
+import '@fontsource/noto-sans-jp/400.css';
+import '@fontsource/noto-sans-jp/600.css';
+import '@fontsource/jetbrains-mono/latin-400.css';
+import '../styles/global.css';
+
+import type { Lang } from '../i18n/utils';
+import { t } from '../i18n/utils';
+import { BASE, withBase, localePath, absoluteUrl } from '../lib/site';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  /** このページのサイト内パス（base 込み・末尾スラッシュ付き。例: "/ja/"）。 */
+  path: string;
+  /** Person などの構造化データ（JSON-LD）。 */
+  jsonLd?: Record<string, unknown> | undefined;
+}
+
+const { lang, title, description, path, jsonLd } = Astro.props;
+const dict = t(lang);
+const site = Astro.site;
+
+const canonical = absoluteUrl(path, site);
+const ogImage = absoluteUrl(withBase('og.png'), site);
+const alternates = [
+  { hreflang: 'ja', href: absoluteUrl(localePath('ja'), site) },
+  { hreflang: 'en', href: absoluteUrl(localePath('en'), site) },
+  { hreflang: 'x-default', href: absoluteUrl(BASE, site) },
+];
+const ogLocaleAlternate = lang === 'ja' ? t('en').ogLocale : t('ja').ogLocale;
+// </script> によるインジェクションを避けるため "<" をエスケープする。
+const jsonLdText = jsonLd ? JSON.stringify(jsonLd).replace(/</g, '\\u003c') : null;
+---
+
+<!doctype html>
+<html lang={dict.htmlLang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {alternates.map((alt) => <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />)}
+    <link rel="icon" href={withBase('favicon.svg')} type="image/svg+xml" />
+    <link rel="sitemap" href={withBase('sitemap-index.xml')} />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f1115" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content={dict.ogLocale} />
+    <meta property="og:locale:alternate" content={ogLocaleAlternate} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    {jsonLdText && <script is:inline type="application/ld+json" set:html={jsonLdText} />}
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{dict.skipToContent}</a>
+    <slot />
+  </body>
+</html>

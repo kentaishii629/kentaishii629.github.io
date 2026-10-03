@@ -1,0 +1,74 @@
+---
+import type { Lang } from '../i18n/utils';
+import { t, pick, pickedLang } from '../i18n/utils';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  lang: Lang;
+  profile: CollectionEntry<'profile'>['data'];
+}
+
+const { lang, profile } = Astro.props;
+const dict = t(lang);
+const bioLang = pickedLang(profile.bio, lang);
+// 空行で段落を分け、段落内の改行は日本語なら詰めて、英語なら空白で連結する。
+const lineJoiner = bioLang === 'ja' ? '' : ' ';
+const paragraphs = pick(profile.bio, lang)
+  .split(/\n{2,}/)
+  .map((p) =>
+    p
+      .split('\n')
+      .map((line) => line.trim())
+      .filter(Boolean)
+      .join(lineJoiner),
+  )
+  .filter(Boolean);
+const affiliations = profile.affiliations.map((a) => ({ text: pick(a, lang), lang: pickedLang(a, lang) }));
+---
+
+<div class="about" lang={bioLang !== lang ? bioLang : undefined}>
+  {paragraphs.map((p) => <p>{p}</p>)}
+</div>
+
+{
+  affiliations.length > 0 && (
+    <dl class="affiliations">
+      <dt class="mono muted">{dict.about.affiliation}</dt>
+      {affiliations.map((a) => (
+        <dd lang={a.lang !== lang ? a.lang : undefined}>{a.text}</dd>
+      ))}
+    </dl>
+  )
+}
+
+<style>
+  .about p + p {
+    margin-top: 1rem;
+  }
+
+  .about p {
+    text-wrap: pretty;
+  }
+
+  .affiliations {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  dt {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  dd {
+    margin: 0;
+    font-size: 0.9375rem;
+  }
+
+  dd + dd {
+    margin-top: 0.25rem;
+  }
+</style>

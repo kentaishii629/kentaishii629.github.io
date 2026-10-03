@@ -1,0 +1,86 @@
+# 論文リスト。年の降順に自動で並ぶ（同じ年の中はこのファイルの記載順）。
+# type: journal | conference | preprint | talk | other
+# authors に含まれる本人名（profile.yaml の name）は自動で太字になる。
+# 【ダミー】/[Dummy] と付いた論文はダミーデータ（Google Scholar の内容に差し替える）。講演 2 件は実データ。
+- id: dummy-2025-journal
+  year: 2025
+  type: journal
+  title:
+    ja: 【ダミー】都市内歩行者流動の時空間構造推定に関する研究
+    en: "[Dummy] Estimating the Spatio-temporal Structure of Urban Pedestrian Flows"
+  authors: [Kenta Ishii, Taro Yamada, Hanako Suzuki]
+  venue:
+    ja: ダミー都市解析学会誌, Vol. 12, No. 3, pp. 1-12
+    en: Dummy Journal of Urban Analytics, Vol. 12, No. 3, pp. 1-12
+  links:
+    doi: https://doi.org/10.0000/dummy.2025.001
+  note: { ja: 論文賞（ダミー）, en: Best Paper Award (dummy) }
+- id: dummy-2025-conf
+  year: 2025
+  type: conference
+  title:
+    en: "[Dummy] Causal Effects of Transit Service Changes on Route Choice"
+  authors: [Kenta Ishii, Jiro Sato]
+  venue:
+    en: Proceedings of the Dummy Conference on Transportation Research (DCTR 2025)
+  links:
+    pdf: https://example.com/dummy-2025-conf.pdf
+- id: dummy-2024-preprint
+  year: 2024
+  type: preprint
+  title:
+    en: "[Dummy] Interpretable Machine Learning for Travel Demand Forecasting"
+  authors: [Kenta Ishii]
+  venue:
+    en: arXiv preprint (dummy)
+  links:
+    arxiv: https://arxiv.org/abs/0000.00000
+- id: dummy-2024-journal
+  year: 2024
+  type: journal
+  title:
+    ja: 【ダミー】離散選択モデルによる経路選択パラメータの推定
+    en: "[Dummy] Estimating Route Choice Parameters with Discrete Choice Models"
+  authors: [石井 健太, 山田 太郎]
+  venue:
+    ja: ダミー交通学会論文集, Vol. 8, pp. 100-110
+    en: Dummy Transactions on Transportation, Vol. 8, pp. 100-110
+  links:
+    doi: https://doi.org/10.0000/dummy.2024.002
+    url: https://example.com/dummy-2024-journal
+- id: dummy-2023-other
+  year: 2023
+  type: other
+  title:
+    ja: 【ダミー】人流データを用いた都市解析の実践
+    en: "[Dummy] Urban Analytics with Pedestrian Flow Data in Practice"
+  authors: [Kenta Ishii, Hanako Suzuki]
+  venue:
+    ja: ダミー技術報告書
+    en: Dummy Technical Report
+  links: {}
+# --- 講演（実データ） ---
+- id: talk-2025-ism-spatial-stats
+  year: 2025
+  type: talk
+  # TODO: 講演タイトルを記載する
+  title:
+    ja: （講演タイトルは後日追記）
+    en: (Talk title to be added)
+  authors: [石井 健太]
+  venue:
+    ja: 応用空間統計ワークショップ, 2025年1月8日, 統計数理研究所
+    en: Applied Spatial Statistics Workshop, January 8, 2025, The Institute of Statistical Mathematics
+  note: { ja: 招待講演, en: Invited talk }
+- id: talk-2024-ohow
+  year: 2024
+  type: talk
+  title:
+    en: Ex-Ante Diagnosis of Prediction Reliability under Behavioral-Parameter Uncertainty in Stochastic User Equilibrium
+  authors: [Kenta Ishii]
+  # TODO: セミナー名・開催日を確認する（https://ohow.iis.u-tokyo.ac.jp/archives/2024）
+  venue:
+    ja: OHOW セミナー, 東京大学生産技術研究所
+    en: OHOW Seminar, Institute of Industrial Science, The University of Tokyo
+  links:
+    url: https://ohow.iis.u-tokyo.ac.jp/archives/2024

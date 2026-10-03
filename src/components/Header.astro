@@ -1,0 +1,121 @@
+---
+import type { Lang } from '../i18n/utils';
+import { t, otherLang } from '../i18n/utils';
+import { localePath } from '../lib/site';
+
+interface Props {
+  lang: Lang;
+  name: string;
+}
+
+const { lang, name } = Astro.props;
+const dict = t(lang);
+const other = otherLang(lang);
+---
+
+<header class="site-header" data-header>
+  <div class="container inner">
+    <a class="logo" href={localePath(lang)}>{name}</a>
+    <nav class="lang mono" aria-label={dict.langSwitch.navLabel}>
+      <span class="current" aria-current="true">
+        <span class="sr-only">{dict.langSwitch.currentLabel}</span>
+        <span aria-hidden="true">{dict.langSwitch.current}</span>
+      </span>
+      <span class="sep" aria-hidden="true">/</span>
+      <a
+        class="switch"
+        href={localePath(other)}
+        hreflang={other}
+        lang={other}
+        aria-label={dict.langSwitch.switchLabel}
+        data-lang-switch
+      >
+        {dict.langSwitch.other}
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  // スクロール時に半透明背景 + backdrop-filter を付ける。
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  if (header) {
+    const update = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+  }
+
+  // 言語切替時に現在のハッシュ（セクション位置）を維持する。
+  for (const link of document.querySelectorAll<HTMLAnchorElement>('a[data-lang-switch]')) {
+    link.addEventListener('click', (event) => {
+      if (!location.hash) return;
+      event.preventDefault();
+      location.href = `${link.href.split('#')[0]}${location.hash}`;
+    });
+  }
+</script>
+
+<style>
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 50;
+    height: var(--header-h);
+    transition:
+      background-color 250ms var(--ease),
+      border-color 250ms var(--ease);
+    border-bottom: 1px solid transparent;
+  }
+
+  .site-header.is-scrolled {
+    background: var(--color-header);
+    border-color: var(--color-border);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+    backdrop-filter: blur(12px) saturate(140%);
+  }
+
+  .inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+  }
+
+  .logo {
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+
+  .lang {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+  }
+
+  .current {
+    color: var(--color-fg);
+  }
+
+  .sep {
+    color: var(--color-border);
+  }
+
+  .switch {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    color: var(--color-muted);
+    transition: color 200ms var(--ease);
+  }
+
+  .switch:hover,
+  .switch:focus-visible {
+    color: var(--color-accent);
+  }
+</style>

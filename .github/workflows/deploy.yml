@@ -1,0 +1,43 @@
+name: Deploy to GitHub Pages
+
+on:
+  # main への push でビルドとデプロイを行う
+  push:
+    branches: [main]
+  # Actions タブから手動実行もできるようにする
+  workflow_dispatch:
+
+# リポジトリの取得と Pages へのデプロイに必要な権限
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同時デプロイは 1 つまで。進行中の本番デプロイは中断しない
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Install, build, and upload
+        # 依存のインストール（package-lock.json から npm を自動検出）、astro build、
+        # dist/ のアーティファクトアップロードまでをまとめて行う
+        uses: withastro/action@v6
+        with:
+          node-version: 22
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

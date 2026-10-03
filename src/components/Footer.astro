@@ -1,0 +1,37 @@
+---
+import type { Lang } from '../i18n/utils';
+import { t } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  name: string;
+}
+
+const { lang, name } = Astro.props;
+const dict = t(lang);
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="mono muted">
+      <span>© {year} {name}</span>
+      <span class="sep" aria-hidden="true">·</span>
+      <span>{dict.footer.rights}</span>
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    padding-block: 2.5rem 3rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  p {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+  }
+</style>
