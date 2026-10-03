@@ -51,12 +51,21 @@ const other = otherLang(lang);
     window.addEventListener('scroll', update, { passive: true });
   }
 
-  // 言語切替時に現在のハッシュ（セクション位置）を維持する。
+  // 言語切替時は、いま画面に見えているセクションへ移動する。
+  // URL のハッシュは目次を押したときのものが残るので使わない（別の場所を読んでいても、そこへ飛ばされてしまうため）。
+  const currentSectionId = (): string | null => {
+    const line = (header?.offsetHeight ?? 0) + 24;
+    let current: string | null = null;
+    for (const section of document.querySelectorAll<HTMLElement>('section.section[id]')) {
+      if (section.getBoundingClientRect().top <= line) current = section.id;
+    }
+    return current;
+  };
   for (const link of document.querySelectorAll<HTMLAnchorElement>('a[data-lang-switch]')) {
     link.addEventListener('click', (event) => {
-      if (!location.hash) return;
       event.preventDefault();
-      location.href = `${link.href.split('#')[0]}${location.hash}`;
+      const id = currentSectionId();
+      location.href = `${link.href.split('#')[0]}${id ? `#${id}` : ''}`;
     });
   }
 </script>
