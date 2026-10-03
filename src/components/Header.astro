@@ -51,22 +51,73 @@ const other = otherLang(lang);
     window.addEventListener('scroll', update, { passive: true });
   }
 
-  // 言語切替時は、いま画面に見えているセクションへ移動する。
-  // URL のハッシュは目次を押したときのものが残るので使わない（別の場所を読んでいても、そこへ飛ばされてしまうため）。
-  const currentSectionId = (): string | null => {
-    const line = (header?.offsetHeight ?? 0) + 24;
-    let current: string | null = null;
-    for (const section of document.querySelectorAll<HTMLElement>('section.section[id]')) {
-      if (section.getBoundingClientRect().top <= line) current = section.id;
-    }
-    return current;
-  };
+  // 言語切替時に、読んでいた位置をそのまま保つ。
+  // 両言語のページは同じ構造（同じ順の章・項目）なので、画面上端にある項目が「何番目の項目か」と
+  // 「その項目の中でどこまで読んだか」を覚えておき、切替先のページで同じ項目の同じ位置へ戻す。
+  // URL のハッシュは目次を押したときのものが残るので使わない。
+  const POS_KEY = 'lang-switch-pos';
+  const anchors = () => Array.from(document.querySelectorAll<HTMLElement>('main section, main li'));
+  const topLine = () => header?.offsetHeight ?? 0;
+
   for (const link of document.querySelectorAll<HTMLAnchorElement>('a[data-lang-switch]')) {
     link.addEventListener('click', (event) => {
       event.preventDefault();
-      const id = currentSectionId();
-      location.href = `${link.href.split('#')[0]}${id ? `#${id}` : ''}`;
+      const line = topLine();
+      let index = -1;
+      let ratio = 0;
+      if (window.scrollY > 0) {
+        anchors().forEach((el, i) => {
+          const rect = el.getBoundingClientRect();
+          // 画面上端より上から始まっている、表示中の項目のうち最後のもの（＝いま読んでいる項目）
+          if (rect.height > 0 && rect.top <= line + 1) {
+            index = i;
+            ratio = Math.min(1, (line - rect.top) / rect.height);
+          }
+        });
+      }
+      try {
+        if (index >= 0) sessionStorage.setItem(POS_KEY, JSON.stringify({ index, ratio, at: Date.now() }));
+        else sessionStorage.removeItem(POS_KEY);
+      } catch {
+        // 保存できない環境では、切替先のページ冒頭に移動する
+      }
+      location.href = link.href.split('#')[0] ?? link.href;
     });
+  }
+
+  // 切替直後のページで、覚えておいた位置へ戻す。
+  try {
+    const saved = sessionStorage.getItem(POS_KEY);
+    sessionStorage.removeItem(POS_KEY);
+    const pos = saved ? (JSON.parse(saved) as { index: number; ratio: number; at: number }) : null;
+    if (pos && Date.now() - pos.at < 10000) {
+      // 表示アニメーション（下から 14px 浮き上がる）の途中だと位置がずれるので、先に全部表示しておく。
+      for (const el of document.querySelectorAll<HTMLElement>('.reveal')) {
+        el.style.transition = 'none';
+        el.classList.add('is-visible');
+      }
+      const restore = () => {
+        const el = anchors()[pos.index];
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        const top = rect.top + window.scrollY - topLine() + rect.height * pos.ratio;
+        window.scrollTo({ top, behavior: 'instant' });
+      };
+      restore();
+      // 書体や画像の読み込みで高さが変わることがあるので、読み込み後にもう一度合わせる（利用者が動かしていなければ）。
+      let moved = false;
+      const markMoved = () => (moved = true);
+      window.addEventListener('wheel', markMoved, { once: true, passive: true });
+      window.addEventListener('touchmove', markMoved, { once: true, passive: true });
+      window.addEventListener('keydown', markMoved, { once: true });
+      const again = () => {
+        if (!moved) restore();
+      };
+      document.fonts?.ready.then(again);
+      window.addEventListener('load', again, { once: true });
+    }
+  } catch {
+    // 位置を戻せない場合はページ冒頭のまま
   }
 </script>
 
