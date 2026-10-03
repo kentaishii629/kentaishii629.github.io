@@ -55,13 +55,11 @@ const affiliations = profile.affiliations.map((a) => ({ text: pick(a, lang), lan
   .hero-inner {
     display: flex;
     flex-direction: column;
-    min-height: 72svh;
-    padding-top: calc(var(--header-h) + var(--sp-6));
+    padding-top: calc(var(--header-h) + var(--sp-5));
   }
 
   .hero-main {
-    margin-top: auto;
-    padding-block: var(--sp-4) var(--sp-8);
+    padding-block: var(--sp-2) var(--sp-6);
   }
 
   .eyebrow {
@@ -150,11 +148,11 @@ const affiliations = profile.affiliations.map((a) => ({ text: pick(a, lang), lan
 
   @media (min-width: 768px) {
     .hero-inner {
-      padding-top: calc(var(--header-h) + var(--sp-10));
+      padding-top: calc(var(--header-h) + var(--sp-8));
     }
 
     .hero-main {
-      padding-block: var(--sp-8) var(--sp-12);
+      padding-block: var(--sp-4) var(--sp-10);
     }
 
     .eyebrow {

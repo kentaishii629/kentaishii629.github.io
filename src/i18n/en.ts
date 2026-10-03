@@ -7,7 +7,7 @@ export const en: Dictionary = {
   ogLocale: 'en_US',
   meta: {
     description:
-      'Research portfolio of Kenta Ishii, Ph.D. candidate at The University of Tokyo: pedestrian flow analysis, transportation network modeling, behavioral parameter estimation, causal inference, and machine learning for transportation. Publications and patents.',
+      'Research portfolio of Kenta Ishii, Senior Researcher at Hitachi, Ltd. and Ph.D. candidate at The University of Tokyo: pedestrian flow analysis, transportation network modeling, behavioral parameter estimation, causal inference, and machine learning for transportation. Publications and patents.',
   },
   skipToContent: 'Skip to content',
   langSwitch: {

@@ -1,12 +1,13 @@
 # プロフィール。多言語フィールドは { ja, en } 形式。片方が空ならもう片方で代替表示される。
 name: { ja: 石井 健太, en: Kenta Ishii }
 title:
-  ja: 博士課程 / 都市・交通解析
-  en: Ph.D. Candidate / Urban & Transportation Analytics
+  ja: 研究員 / 都市・交通解析
+  en: Senior Researcher / Urban & Transportation Analytics
 affiliations:
+  - ja: 株式会社日立製作所 研究開発グループ 研究員 (Senior Researcher)
+    en: Senior Researcher, Research & Development Group, Hitachi, Ltd.
   - ja: 東京大学大学院 工学系研究科 建築学専攻 博士課程
     en: Ph.D. Candidate, Department of Architecture, The University of Tokyo
-  # TODO: 勤務先の記載は本人が社内規程を確認後に追加
 # bio: 空行で段落を分ける。段落内の改行は、日本語はそのまま連結、英語は空白で連結される。
 bio:
   ja: |-
