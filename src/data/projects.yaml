@@ -2,6 +2,20 @@
 # title.ja と year 以外は任意。links は { label, url } の配列。
 # 年度ごとに事業名が違うものは別の項目として書く。title は「年度 + 事業の正式名 + 個別の事業名」の粒度で揃える。
 # 事業名は経済産業省の公表版報告書に記載の名称。英語名は仮訳。
+- id: ogb-okinawa-mobility-fy2025
+  year: 2025
+  title:
+    ja: 内閣府沖縄総合事務局 令和7年度「沖縄持続可能な交通環境構築推進事業実証」モノレール沿線における交通結節点の形成に向けたモビリティデータによる移動実態分析
+    en: "Okinawa General Bureau, Cabinet Office, FY2025 \"Demonstration for Promoting a Sustainable Transport Environment in Okinawa\": Mobility-Data Analysis of Travel Patterns toward Forming Transport Hubs along the Monorail Line" # 仮訳
+  period:
+    ja: 2025年度（沖縄・那覇市のモノレール沿線）
+    en: "FY2025 (along the monorail line in Naha, Okinawa)"
+  funder:
+    ja: "内閣府沖縄総合事務局／実施: 株式会社日立製作所（協力先: 沖縄都市モノレール株式会社、那覇バス株式会社）"
+    en: "Okinawa General Bureau, Cabinet Office; conducted by Hitachi, Ltd. (in cooperation with Okinawa Urban Monorail, Inc. and Naha Bus Co., Ltd.)"
+  links:
+    - label: { ja: 取組みの紹介資料（沖縄総合事務局）, en: Project poster (Okinawa General Bureau) }
+      url: https://www.ogb.go.jp/-/media/Files/OGB/Unyu/koutsu/ridezain/260217/3-06.pdf
 - id: meti-regional-maas-fukuoka-fy2024
   year: 2024
   title:
@@ -16,6 +30,20 @@
   links:
     - label: { ja: 令和6年度の成果（経済産業省）, en: FY2024 results (METI) }
       url: https://www.meti.go.jp/shingikai/mono_info_service/smart_mobility_challenge/20250331_report.html
+- id: fukuoka-pref-mobility-data-fy2024
+  year: 2024
+  title:
+    ja: 福岡県 令和6年度「モビリティデータ等の活用による地域交通サービスの課題分析及び対策検討支援業務」
+    en: "Fukuoka Prefecture FY2024 \"Support for Analyzing Issues in Regional Transport Services and Examining Measures Using Mobility Data\"" # 仮訳
+  period:
+    ja: 2024年度（福岡県）
+    en: "FY2024 (Fukuoka Prefecture)"
+  funder:
+    ja: "福岡県／委託事業者: 株式会社日立製作所"
+    en: "Fukuoka Prefecture; contractor: Hitachi, Ltd."
+  links:
+    - label: { ja: 成果の概要（国土交通省）, en: Summary of results (MLIT) }
+      url: https://www.mlit.go.jp/sogoseisaku/transport/content/001891602.pdf
 - id: meti-regional-maas-fukuoka-fy2023
   year: 2023
   title:
