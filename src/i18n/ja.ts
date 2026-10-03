@@ -60,8 +60,6 @@ export const ja = {
   },
   projects: {
     period: '期間',
-    funder: '所管',
-    role: '担当',
   },
   exhibitions: {
     venue: '会場',

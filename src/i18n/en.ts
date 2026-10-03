@@ -62,8 +62,6 @@ export const en: Dictionary = {
   },
   projects: {
     period: 'Period',
-    funder: 'Funded by',
-    role: 'Role',
   },
   exhibitions: {
     venue: 'Venue',

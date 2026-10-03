@@ -62,11 +62,7 @@ const projectEntries: Entry[] = (await getCollection('projects')).sort(byYearDes
   title: pick(data.title, lang),
   titleLang: pickedLang(data.title, lang),
   summary: data.summary ? { text: pick(data.summary, lang), lang: pickedLang(data.summary, lang) } : undefined,
-  rows: [
-    ...row(dict.projects.period, data.period),
-    ...row(dict.projects.funder, data.funder),
-    ...row(dict.projects.role, data.role),
-  ],
+  rows: row(dict.projects.period, data.period),
   links: data.links.map((link) => ({ label: pick(link.label, lang), href: link.url })),
 }));
 

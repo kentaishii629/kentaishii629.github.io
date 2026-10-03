@@ -93,11 +93,9 @@ npm run check      # 型チェック（astro check）
   year: 2026
   title: { ja: 事業の名称, en: Project Name }
   period: { ja: 2026年度〜, en: FY2026- }
-  funder: { ja: 所管・委託元, en: Funder }
-  role: { ja: 担当した役割, en: Role }
   summary: { ja: 事業の概要, en: Short description }
   links:
-    - label: { ja: 成果報告書, en: Report }
+    - label: { ja: 公開資料, en: Materials }   # 文言は揃える
       url: https://example.com/report.pdf
 ```
 

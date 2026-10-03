@@ -205,10 +205,6 @@ const projects = defineCollection({
     title: z.strictObject({ ja: z.string(), en: z.string().optional() }),
     /** 期間（自由記述）。 */
     period: localized.optional(),
-    /** 所管・委託元。 */
-    funder: localized.optional(),
-    /** 担当した役割。 */
-    role: localized.optional(),
     summary: localized.optional(),
     links: z.array(z.strictObject({ label: localized, url: z.url() })).default([]),
   }),
