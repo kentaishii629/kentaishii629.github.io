@@ -73,8 +73,13 @@ export const en: Dictionary = {
     },
     emailAt: '[at]',
   },
+  counts: {
+    research: 'themes',
+    publications: 'entries',
+  },
   footer: {
     rights: 'All rights reserved.',
+    top: 'Back to top',
   },
   redirect: {
     title: 'Choose language / 言語を選択',

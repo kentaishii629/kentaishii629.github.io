@@ -17,21 +17,23 @@ const [emailUser = '', emailDomain = ''] = profile.email ? profile.email.split('
 const hasEmail = Boolean(emailUser && emailDomain);
 
 const LINK_ORDER = ['researchmap', 'scholar', 'orcid', 'github'] as const;
+
+/** リンク本文に表示する短い URL（スキームとクエリを落とし、末尾スラッシュを除く）。 */
+function shortUrl(href: string): string {
+  try {
+    const u = new URL(href);
+    return `${u.host}${u.pathname}`.replace(/\/$/, '');
+  } catch {
+    return href;
+  }
+}
+
 const links = LINK_ORDER.filter((key) => profile.links[key]).map((key) => ({
   key,
   href: profile.links[key],
   label: dict.contact.links[key],
+  text: shortUrl(profile.links[key]),
 }));
-
-// アイコンはインライン SVG のみ（24x24 の stroke パス）。
-const ICONS: Record<(typeof LINK_ORDER)[number] | 'mail', string> = {
-  mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
-  researchmap:
-    '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
-  scholar: '<path d="m2 10 10-5 10 5-10 5z"/><path d="M6 12.5V17c3 2.5 9 2.5 12 0v-4.5M22 10v6"/>',
-  orcid: '<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="11" r="2.5"/><path d="M5.5 17.5c.8-2 2-3 3.5-3s2.7 1 3.5 3M15 9h3M15 13h3"/>',
-  github: '<path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/>',
-};
 ---
 
 <p class="lead">{dict.contact.lead}</p>
@@ -40,9 +42,8 @@ const ICONS: Record<(typeof LINK_ORDER)[number] | 'mail', string> = {
   {
     hasEmail && (
       <li>
-        <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={ICONS.mail} />
-        <span class="label mono muted">{dict.contact.email}</span>
-        <span class="email" data-u={reverse(emailUser)} data-d={reverse(emailDomain)}>
+        <span class="key label">{dict.contact.email}</span>
+        <span class="email mono" data-u={reverse(emailUser)} data-d={reverse(emailDomain)}>
           {emailUser} {dict.contact.emailAt} {emailDomain}
         </span>
       </li>
@@ -51,9 +52,9 @@ const ICONS: Record<(typeof LINK_ORDER)[number] | 'mail', string> = {
   {
     links.map((link) => (
       <li>
-        <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={ICONS[link.key]} />
-        <a class="link" href={link.href} rel="me noopener">
-          {link.label}
+        <span class="key label">{link.label}</span>
+        <a class="arrow-link" href={link.href} rel="me noopener">
+          {link.text}
         </a>
       </li>
     ))
@@ -66,7 +67,7 @@ const ICONS: Record<(typeof LINK_ORDER)[number] | 'mail', string> = {
   for (const el of document.querySelectorAll<HTMLElement>('.email[data-u][data-d]')) {
     const address = `${reverse(el.dataset.u ?? '')}@${reverse(el.dataset.d ?? '')}`;
     const a = document.createElement('a');
-    a.className = 'link';
+    a.className = 'arrow-link';
     a.href = `mailto:${address}`;
     a.textContent = address;
     el.replaceWith(a);
@@ -75,39 +76,56 @@ const ICONS: Record<(typeof LINK_ORDER)[number] | 'mail', string> = {
 
 <style>
   .lead {
-    margin-bottom: 1.5rem;
+    font-size: 1.0625rem;
+    line-height: 1.8;
+    margin-bottom: var(--sp-4);
     text-wrap: pretty;
   }
 
+  .contact {
+    border-bottom: var(--hairline);
+  }
+
   .contact li {
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
     align-items: center;
-    gap: 0.75rem;
-    min-height: 48px;
-    border-top: 1px solid var(--color-border);
+    gap: 0 var(--sp-3);
+    padding-block: 0.625rem;
+    border-top: var(--hairline);
   }
 
-  .contact li:last-child {
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .icon {
-    flex: none;
-    color: var(--color-muted);
-  }
-
-  .label {
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
+  .key {
+    padding-top: 0.5rem;
   }
 
   .email {
+    font-size: 0.75rem;
     overflow-wrap: anywhere;
   }
 
-  .contact a {
-    display: inline-flex;
-    align-items: center;
+  .contact :global(.arrow-link) {
     min-height: 44px;
+    font-size: 0.8125rem;
+    max-width: 100%;
+  }
+
+  .contact :global(.arrow-link) {
+    overflow-wrap: anywhere;
+  }
+
+  @media (min-width: 768px) {
+    .lead {
+      font-size: 1.125rem;
+    }
+
+    .contact li {
+      grid-template-columns: 10rem minmax(0, 1fr);
+      padding-block: 0.25rem;
+    }
+
+    .key {
+      padding-top: 0;
+    }
   }
 </style>

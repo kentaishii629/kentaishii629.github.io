@@ -17,13 +17,12 @@ const other = otherLang(lang);
   <div class="container inner">
     <a class="logo" href={localePath(lang)}>{name}</a>
     <nav class="lang mono" aria-label={dict.langSwitch.navLabel}>
-      <span class="current" aria-current="true">
+      <span class="seg current" aria-current="true">
         <span class="sr-only">{dict.langSwitch.currentLabel}</span>
         <span aria-hidden="true">{dict.langSwitch.current}</span>
       </span>
-      <span class="sep" aria-hidden="true">/</span>
       <a
-        class="switch"
+        class="seg switch"
         href={localePath(other)}
         hreflang={other}
         lang={other}
@@ -82,40 +81,62 @@ const other = otherLang(lang);
   }
 
   .logo {
-    font-weight: 500;
-    letter-spacing: -0.01em;
     display: inline-flex;
     align-items: center;
     min-height: 44px;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
   }
 
+  /* Segmented JA / EN control */
   .lang {
     display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.8125rem;
+    align-items: stretch;
+    height: 36px;
+    padding: 3px;
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    border: 1px solid var(--color-rule);
+    border-radius: 999px;
   }
 
-  .current {
-    color: var(--color-fg);
-  }
-
-  .sep {
-    color: var(--color-border);
-  }
-
-  .switch {
+  .seg {
+    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 44px;
-    min-height: 44px;
+    min-width: 40px;
+    padding-inline: 0.25rem;
+    border-radius: 999px;
+    transition:
+      color 200ms var(--ease),
+      background-color 200ms var(--ease);
+  }
+
+  .current {
+    color: var(--color-bg);
+    background: var(--color-fg);
+  }
+
+  .switch {
     color: var(--color-muted);
-    transition: color 200ms var(--ease);
+  }
+
+  /* 見た目は 32px だが、タップ領域は 44px 分に広げる。 */
+  .switch::before {
+    content: '';
+    position: absolute;
+    inset: -8px -4px;
   }
 
   .switch:hover,
   .switch:focus-visible {
-    color: var(--color-accent);
+    color: var(--color-fg);
+    background: var(--color-bg-elev);
+  }
+
+  .switch:focus-visible {
+    outline-offset: 4px;
   }
 </style>

@@ -62,10 +62,20 @@ const jsonLd = {
   <Header lang={lang} name={name} />
   <main id="main">
     <Hero lang={lang} profile={profile} />
-    <Section id="research" number={dict.sections.research.number} title={dict.sections.research.title}>
+    <Section
+      id="research"
+      number={dict.sections.research.number}
+      title={dict.sections.research.title}
+      meta={`${profile.research.length} ${dict.counts.research}`}
+    >
       <ResearchList lang={lang} items={profile.research} />
     </Section>
-    <Section id="publications" number={dict.sections.publications.number} title={dict.sections.publications.title}>
+    <Section
+      id="publications"
+      number={dict.sections.publications.number}
+      title={dict.sections.publications.title}
+      meta={`${pubs.length} ${dict.counts.publications}`}
+    >
       <PubList lang={lang} pubs={pubs} selfVariants={selfVariants} />
     </Section>
     <Section id="patents" number={dict.sections.patents.number} title={dict.sections.patents.title}>

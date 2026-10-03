@@ -1,15 +1,20 @@
 ---
 // フォントは @fontsource で自己ホスト。必要なサブセット・ウェイトだけを読み込む。
 // Noto Sans JP は unicode-range で分割された 400.css / 600.css を使い、使用グリフ分だけがダウンロードされる。
+import '@fontsource/inter/latin-300.css';
 import '@fontsource/inter/latin-400.css';
 import '@fontsource/inter/latin-500.css';
 import '@fontsource/inter/latin-600.css';
+import '@fontsource/inter/latin-ext-300.css';
 import '@fontsource/inter/latin-ext-400.css';
 import '@fontsource/inter/latin-ext-500.css';
 import '@fontsource/inter/latin-ext-600.css';
+import '@fontsource/noto-sans-jp/300.css';
 import '@fontsource/noto-sans-jp/400.css';
+import '@fontsource/noto-sans-jp/500.css';
 import '@fontsource/noto-sans-jp/600.css';
 import '@fontsource/jetbrains-mono/latin-400.css';
+import '@fontsource/jetbrains-mono/latin-500.css';
 import '../styles/global.css';
 
 import type { Lang } from '../i18n/utils';
@@ -54,7 +59,7 @@ const jsonLdText = jsonLd ? JSON.stringify(jsonLd).replace(/</g, '\\u003c') : nu
     <link rel="icon" href={withBase('favicon.svg')} type="image/svg+xml" />
     <link rel="sitemap" href={withBase('sitemap-index.xml')} />
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f1115" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0a0a0b" />
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />

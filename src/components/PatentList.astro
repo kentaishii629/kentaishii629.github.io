@@ -23,6 +23,17 @@ const counts = {
   granted: patents.filter((p) => p.data.status === 'granted').length,
   pending: patents.filter((p) => p.data.status === 'pending').length,
 };
+const stats: { label: string; value: string | number }[] = summary
+  ? [
+      { label: dict.patents.filed, value: summary.filed },
+      { label: dict.patents.granted, value: summary.granted },
+    ]
+  : [
+      { label: dict.patents.granted, value: counts.granted },
+      { label: dict.patents.pending, value: counts.pending },
+    ];
+const asOf = summary?.asOf ? pick(summary.asOf, lang) : '';
+const asOfLang = summary?.asOf ? pickedLang(summary.asOf, lang) : lang;
 const note = summary?.note ? pick(summary.note, lang) : '';
 const noteLang = summary?.note ? pickedLang(summary.note, lang) : lang;
 
@@ -39,25 +50,20 @@ function details(data: CollectionEntry<'patents'>['data']) {
 }
 ---
 
-<p class="summary mono" aria-label={dict.patents.summaryLabel}>
-  {
-    summary ? (
-      <>
-        <span>{dict.patents.filed} <b>{summary.filed}</b></span>
-        <span class="dot" aria-hidden="true">·</span>
-        <span>{dict.patents.granted} <b>{summary.granted}</b></span>
-        {summary.asOf && <span class="asof">({pick(summary.asOf, lang)})</span>}
-      </>
-    ) : (
-      <>
-        <span>{dict.patents.granted} <b>{counts.granted}</b></span>
-        <span class="dot" aria-hidden="true">·</span>
-        <span>{dict.patents.pending} <b>{counts.pending}</b></span>
-      </>
-    )
-  }
-</p>
-{note && <p class="note" lang={noteLang !== lang ? noteLang : undefined}>{note}</p>}
+<div class="summary" role="group" aria-label={dict.patents.summaryLabel}>
+  <dl class="stats">
+    {
+      stats.map((s) => (
+        <div class="stat">
+          <dt class="label">{s.label}</dt>
+          <dd class="mono">{s.value}</dd>
+        </div>
+      ))
+    }
+  </dl>
+  {asOf && <p class="asof mono muted" lang={asOfLang !== lang ? asOfLang : undefined}>{asOf}</p>}
+</div>
+{note && <p class="note muted" lang={noteLang !== lang ? noteLang : undefined}>{note}</p>}
 
 <ol class="patents">
   {
@@ -69,12 +75,16 @@ function details(data: CollectionEntry<'patents'>['data']) {
         <li>
           <span class="mono year">{data.year}</span>
           <div class="body">
-            <h3 lang={titleLang !== lang ? titleLang : undefined}>{pick(data.title, lang)}</h3>
-            {data.status && (
-              <p class="meta">
-                <span class:list={['status', 'mono', data.status]}>{dict.patents[data.status]}</span>
-              </p>
-            )}
+            <div class="head">
+              <h3 lang={titleLang !== lang ? titleLang : undefined}>{pick(data.title, lang)}</h3>
+              {data.status && (
+                <p class="meta">
+                  <span class:list={['status', 'pill', data.status, { 'is-accent': data.status === 'granted' }]}>
+                    {dict.patents[data.status]}
+                  </span>
+                </p>
+              )}
+            </div>
             {data.summary && (
               <p class="desc" lang={summaryLang !== lang ? summaryLang : undefined}>
                 {pick(data.summary, lang)}
@@ -83,12 +93,12 @@ function details(data: CollectionEntry<'patents'>['data']) {
             {rows.length > 0 && (
               <dl class="details">
                 {rows.map((row) => (
-                  <>
-                    <dt class="mono">{row.label}</dt>
+                  <div class="row">
+                    <dt class="label">{row.label}</dt>
                     <dd class:list={{ mono: row.lang === undefined }} lang={row.lang && row.lang !== lang ? row.lang : undefined}>
                       {row.value}
                     </dd>
-                  </>
+                  </div>
                 ))}
               </dl>
             )}
@@ -104,8 +114,8 @@ function details(data: CollectionEntry<'patents'>['data']) {
               </p>
             )}
             {data.link && (
-              <p class="links mono">
-                <a class="link" href={data.link} rel="noopener">
+              <p class="links">
+                <a class="arrow-link" href={data.link} rel="noopener">
                   {dict.patents.link}
                 </a>
               </p>
@@ -118,99 +128,137 @@ function details(data: CollectionEntry<'patents'>['data']) {
 </ol>
 
 <style>
+  /* Stat strip: large mono figures with small labels */
   .summary {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.75rem;
-    margin-bottom: 0.75rem;
-    font-size: 0.875rem;
-    color: var(--color-muted);
+    align-items: flex-end;
+    gap: var(--sp-2) var(--sp-4);
+    margin-bottom: var(--sp-2);
   }
 
-  .summary b {
+  .stats {
+    display: flex;
+    gap: var(--sp-5);
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .stat dd {
+    font-size: 2rem;
     font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1;
     color: var(--color-fg);
   }
 
   .asof {
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
+    letter-spacing: 0.04em;
+    padding-bottom: 0.125rem;
   }
 
   .note {
     font-size: 0.9375rem;
-    color: var(--color-muted);
-    margin-bottom: 1.75rem;
+    line-height: 1.7;
+    margin-bottom: var(--sp-4);
+    text-wrap: pretty;
+  }
+
+  .patents {
+    border-bottom: var(--hairline);
   }
 
   .patents > li {
+    position: relative;
+    isolation: isolate;
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 0.25rem 1.5rem;
-    padding-block: 1.5rem;
-    border-top: 1px solid var(--color-border);
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.25rem var(--sp-3);
+    padding-block: var(--sp-3);
+    border-top: var(--hairline);
   }
 
-  .patents > li:last-child {
-    border-bottom: 1px solid var(--color-border);
+  .patents > li::before {
+    content: '';
+    position: absolute;
+    inset: 0 -0.75rem;
+    z-index: -1;
+    border-radius: var(--radius);
+    background: var(--color-bg-elev);
+    opacity: 0;
+    transition: opacity 200ms var(--ease);
+  }
+
+  .patents > li:hover::before {
+    opacity: 1;
   }
 
   .year {
-    font-size: 0.8125rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
     color: var(--color-muted);
-    padding-top: 0.3rem;
+    padding-top: 0.35rem;
   }
 
-  h3 {
-    margin-bottom: 0.5rem;
+  .body {
+    min-width: 0;
+  }
+
+  .head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.375rem 0.75rem;
+    margin-bottom: 0.625rem;
   }
 
   .meta {
-    display: flex;
-    flex-wrap: wrap;
+    display: inline-flex;
     align-items: center;
-    gap: 0.75rem;
-    font-size: 0.75rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .status {
-    padding: 0 0.5rem;
-    border: 1px solid currentColor;
-    border-radius: 999px;
-    line-height: 1.7;
-    color: var(--color-muted);
-  }
-
-  .status.granted {
-    color: var(--color-accent);
   }
 
   .desc {
     font-size: 0.9375rem;
-    margin-bottom: 0.75rem;
+    line-height: 1.7;
+    margin-bottom: var(--sp-2);
     text-wrap: pretty;
   }
 
   .details {
     display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 0.125rem 1rem;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.375rem var(--sp-3);
+    padding: 0.75rem 0;
+    border-top: 1px dashed var(--color-border);
+    border-bottom: 1px dashed var(--color-border);
     font-size: 0.8125rem;
-    line-height: 1.6;
+    line-height: 1.5;
   }
 
-  .details dt {
-    color: var(--color-muted);
-    letter-spacing: 0.02em;
+  .row {
+    display: grid;
+    grid-template-columns: 8.75rem minmax(0, 1fr);
+    gap: 0.5rem;
+    align-items: baseline;
   }
 
   .details dd {
     margin: 0;
+    font-size: 0.8125rem;
+  }
+
+  .details dd.mono {
+    font-size: 0.75rem;
   }
 
   .inventors {
     font-size: 0.9375rem;
-    margin-top: 0.5rem;
+    margin-top: 0.75rem;
   }
 
   .inventors strong {
@@ -220,18 +268,24 @@ function details(data: CollectionEntry<'patents'>['data']) {
 
   .links {
     margin-top: 0.5rem;
-    font-size: 0.8125rem;
-  }
-
-  .links a {
-    display: inline-flex;
-    align-items: center;
-    min-height: 32px;
   }
 
   @media (min-width: 768px) {
+    .summary {
+      margin-bottom: var(--sp-2);
+    }
+
+    .stat dd {
+      font-size: 2.5rem;
+    }
+
     .patents > li {
-      grid-template-columns: 4.5rem 1fr;
+      grid-template-columns: var(--year-col) minmax(0, 1fr);
+      padding-block: var(--sp-3) var(--sp-4);
+    }
+
+    .details {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 </style>

@@ -33,42 +33,58 @@ const affiliations = profile.affiliations.map((a) => ({ text: pick(a, lang), lan
 {
   affiliations.length > 0 && (
     <dl class="affiliations">
-      <dt class="mono muted">{dict.about.affiliation}</dt>
-      {affiliations.map((a) => (
-        <dd lang={a.lang !== lang ? a.lang : undefined}>{a.text}</dd>
-      ))}
+      <dt class="label">{dict.about.affiliation}</dt>
+      <div class="values">
+        {affiliations.map((a) => (
+          <dd lang={a.lang !== lang ? a.lang : undefined}>{a.text}</dd>
+        ))}
+      </div>
     </dl>
   )
 }
 
 <style>
-  .about p + p {
-    margin-top: 1rem;
-  }
-
   .about p {
+    font-size: 1.0625rem;
+    line-height: 1.8;
     text-wrap: pretty;
   }
 
+  .about p + p {
+    margin-top: 1.25rem;
+  }
+
   .affiliations {
-    margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--color-border);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.5rem var(--sp-3);
+    margin-top: var(--sp-5);
+    padding-block: var(--sp-3);
+    border-top: var(--hairline);
+    border-bottom: var(--hairline);
   }
 
   dt {
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-bottom: 0.5rem;
+    padding-top: 0.2rem;
   }
 
   dd {
     margin: 0;
     font-size: 0.9375rem;
+    line-height: 1.6;
   }
 
   dd + dd {
-    margin-top: 0.25rem;
+    margin-top: 0.375rem;
+  }
+
+  @media (min-width: 768px) {
+    .about p {
+      font-size: 1.125rem;
+    }
+
+    .affiliations {
+      grid-template-columns: 10rem minmax(0, 1fr);
+    }
   }
 </style>

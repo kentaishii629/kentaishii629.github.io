@@ -71,8 +71,13 @@ export const ja = {
     },
     emailAt: '[at]',
   },
+  counts: {
+    research: 'テーマ',
+    publications: '件',
+  },
   footer: {
     rights: 'All rights reserved.',
+    top: 'ページ上部へ',
   },
   redirect: {
     title: '言語を選択 / Choose language',
