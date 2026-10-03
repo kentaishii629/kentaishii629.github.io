@@ -22,8 +22,9 @@ export const ja = {
     research: { number: '01', title: '研究テーマ' },
     publications: { number: '02', title: '論文' },
     patents: { number: '03', title: '特許' },
-    about: { number: '04', title: '自己紹介' },
-    contact: { number: '05', title: '連絡先' },
+    exhibitions: { number: '04', title: '展示' },
+    about: { number: '05', title: '自己紹介' },
+    contact: { number: '06', title: '連絡先' },
   },
   publications: {
     filterLabel: '種別で絞り込む',
@@ -54,6 +55,12 @@ export const ja = {
     assignee: '出願人',
     inventors: '発明者',
     link: '特許情報',
+  },
+  exhibitions: {
+    venue: '会場',
+    period: '会期',
+    role: '担当',
+    link: '展示情報',
   },
   about: {
     affiliation: '所属',

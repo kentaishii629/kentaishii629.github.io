@@ -1,0 +1,123 @@
+---
+import type { Lang } from '../i18n/utils';
+import { t, pick, pickedLang } from '../i18n/utils';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  lang: Lang;
+  /** 年の降順に並んだ展示リスト（年不明は末尾）。 */
+  exhibitions: CollectionEntry<'exhibitions'>[];
+}
+
+const { lang, exhibitions } = Astro.props;
+const dict = t(lang);
+
+/** 詳細行（値があるものだけ）。 */
+function details(data: CollectionEntry<'exhibitions'>['data']) {
+  const rows: { label: string; value: string; lang: Lang }[] = [];
+  for (const [key, field] of [
+    ['venue', data.venue],
+    ['period', data.period],
+    ['role', data.role],
+  ] as const) {
+    if (field) rows.push({ label: dict.exhibitions[key], value: pick(field, lang), lang: pickedLang(field, lang) });
+  }
+  return rows;
+}
+---
+
+<ol class="exhibitions">
+  {
+    exhibitions.map(({ data }) => {
+      const titleLang = pickedLang(data.title, lang);
+      const rows = details(data);
+      const summaryLang = data.summary ? pickedLang(data.summary, lang) : lang;
+      return (
+        <li>
+          <span class="mono year">{data.year ?? ''}</span>
+          <div class="body">
+            <h3 lang={titleLang !== lang ? titleLang : undefined}>{pick(data.title, lang)}</h3>
+            {data.summary && (
+              <p class="desc" lang={summaryLang !== lang ? summaryLang : undefined}>
+                {pick(data.summary, lang)}
+              </p>
+            )}
+            {rows.length > 0 && (
+              <dl class="details">
+                {rows.map((row) => (
+                  <>
+                    <dt class="label">{row.label}</dt>
+                    <dd lang={row.lang !== lang ? row.lang : undefined}>{row.value}</dd>
+                  </>
+                ))}
+              </dl>
+            )}
+            {data.link && (
+              <p class="links">
+                <a class="arrow-link" href={data.link} rel="noopener">
+                  {dict.exhibitions.link}
+                </a>
+              </p>
+            )}
+          </div>
+        </li>
+      );
+    })
+  }
+</ol>
+
+<style>
+  .exhibitions > li {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.25rem var(--col-gap);
+    padding-block: var(--sp-3);
+    border-top: var(--hairline);
+  }
+
+  .exhibitions > li:last-child {
+    border-bottom: var(--hairline);
+  }
+
+  .year {
+    font-size: 0.8125rem;
+    color: var(--color-muted);
+    padding-top: 0.3rem;
+  }
+
+  h3 {
+    margin-bottom: 0.5rem;
+  }
+
+  .desc {
+    font-size: 0.9375rem;
+    margin-bottom: 0.75rem;
+    text-wrap: pretty;
+  }
+
+  .details {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.25rem 1rem;
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  .details dd {
+    margin: 0;
+  }
+
+  .links {
+    margin-top: 0.75rem;
+  }
+
+  @media (min-width: 768px) {
+    .exhibitions > li {
+      grid-template-columns: var(--year-col) 1fr;
+    }
+
+    .details {
+      grid-template-columns: 6rem 1fr;
+    }
+  }
+</style>

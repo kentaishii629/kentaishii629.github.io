@@ -24,8 +24,9 @@ export const en: Dictionary = {
     research: { number: '01', title: 'Research' },
     publications: { number: '02', title: 'Publications' },
     patents: { number: '03', title: 'Patents' },
-    about: { number: '04', title: 'About' },
-    contact: { number: '05', title: 'Contact' },
+    exhibitions: { number: '04', title: 'Exhibitions' },
+    about: { number: '05', title: 'About' },
+    contact: { number: '06', title: 'Contact' },
   },
   publications: {
     filterLabel: 'Filter by type',
@@ -56,6 +57,12 @@ export const en: Dictionary = {
     assignee: 'Assignee',
     inventors: 'Inventors',
     link: 'Patent record',
+  },
+  exhibitions: {
+    venue: 'Venue',
+    period: 'Dates',
+    role: 'Role',
+    link: 'Exhibition page',
   },
   about: {
     affiliation: 'Affiliation',

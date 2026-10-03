@@ -2,7 +2,7 @@
 
 Astro で構築した静的な個人ポートフォリオサイト。日英 2 言語（`/ja/`, `/en/`）に対応し、GitHub Pages で公開する。
 
-- データ（プロフィール・論文・特許）は `src/data/*.yaml` に書く。スキーマ違反があるとビルドが失敗する。
+- データ（プロフィール・論文・特許・展示）は `src/data/*.yaml` に書く。スキーマ違反があるとビルドが失敗する。
 - UI の文言は `src/i18n/ja.ts` / `src/i18n/en.ts` にある。
 - 書体は Inter（欧文）/ Noto Sans JP（和文）/ JetBrains Mono（数字・コードのみ）。
 - 外部サービスや解析タグは使わず、フォントも自己ホストしている（`@fontsource`）。
@@ -70,6 +70,21 @@ npm run check      # 型チェック（astro check）
 
 セクション冒頭の一文は `profile.yaml` の `patentNote`（任意）に書く。
 
+### 展示（`src/data/exhibitions.yaml`）
+
+`year` の降順に並ぶ（`year` を省略した項目は末尾に記載順）。`title.ja` 以外は任意。
+
+```yaml
+- id: exhibition-2026
+  year: 2026
+  title: { ja: 展示会名, en: Exhibition Title }
+  venue: { ja: 会場名, en: Venue }
+  period: { ja: 2026年4月1日〜4月30日, en: "April 1-30, 2026" }
+  role: { ja: 「作品名」担当, en: "In charge of \"Work Title\"" }
+  summary: { ja: 展示の概要, en: Short description }
+  link: https://example.com/exhibition
+```
+
 ### プロフィール（`src/data/profile.yaml`）
 
 名前・肩書き・所属・研究テーマ・リンク・メールアドレス・特許の注記（`patentNote`）を書く。多言語フィールドは `{ ja, en }` 形式で、片方が空ならもう片方で代替表示される。
@@ -91,7 +106,7 @@ npm run check      # 型チェック（astro check）
 ```
 scripts/fonts.mjs    # 使う分割だけの Noto Sans JP @font-face を生成（build 前に自動実行）
 src/
-  data/            # profile.yaml / publications.yaml / patents.yaml
+  data/            # profile.yaml / publications.yaml / patents.yaml / exhibitions.yaml
   content.config.ts  # コレクション定義と zod スキーマ
   i18n/            # UI 文言（ja.ts / en.ts）とユーティリティ
   components/      # Header / Hero / Section / 各リスト / About / Contact / Footer / Portfolio

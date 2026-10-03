@@ -12,6 +12,7 @@ import Section from './Section.astro';
 import ResearchList from './ResearchList.astro';
 import PubList from './PubList.astro';
 import PatentList from './PatentList.astro';
+import ExhibitionList from './ExhibitionList.astro';
 import About from './About.astro';
 import Contact from './Contact.astro';
 import Footer from './Footer.astro';
@@ -37,6 +38,10 @@ const byYearDesc = <T extends { data: { year: number; order: number } }>(a: T, b
   b.data.year - a.data.year || a.data.order - b.data.order;
 const pubs: CollectionEntry<'publications'>[] = (await getCollection('publications')).sort(byYearDesc);
 const patents: CollectionEntry<'patents'>[] = (await getCollection('patents')).sort(byYearDesc);
+// 展示は年が不明なものを末尾に（記載順）。
+const exhibitions: CollectionEntry<'exhibitions'>[] = (await getCollection('exhibitions')).sort(
+  (a, b) => (b.data.year ?? -1) - (a.data.year ?? -1) || a.data.order - b.data.order,
+);
 
 const selfVariants = selfNameVariants(profile.name);
 const name = pick(profile.name, lang);
@@ -78,6 +83,9 @@ const jsonLd = {
     </Section>
     <Section id="patents" number={dict.sections.patents.number} title={dict.sections.patents.title}>
       <PatentList lang={lang} patents={patents} selfVariants={selfVariants} note={profile.patentNote} />
+    </Section>
+    <Section id="exhibitions" number={dict.sections.exhibitions.number} title={dict.sections.exhibitions.title}>
+      <ExhibitionList lang={lang} exhibitions={exhibitions} />
     </Section>
     <Section id="about" number={dict.sections.about.number} title={dict.sections.about.title}>
       <About lang={lang} profile={profile} />

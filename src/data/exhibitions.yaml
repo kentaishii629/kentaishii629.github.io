@@ -1,0 +1,21 @@
+# 展示リスト。年（year）の降順に自動で並ぶ（同じ年の中、および year 省略分はこのファイルの記載順）。
+# title.ja 以外はすべて任意。role には担当した展示物・役割を書く。
+# TODO: 両展示とも展示会名・会場・会期・年を確認して追記する（この環境からは公式ページを参照できなかった）。
+- id: good-design-marunouchi-77
+  # year: 2021
+  title:
+    ja: GOOD DESIGN Marunouchi 第77回展示
+    en: GOOD DESIGN Marunouchi Exhibition No. 77
+  venue: { ja: GOOD DESIGN Marunouchi（東京・丸の内）, en: "GOOD DESIGN Marunouchi, Tokyo" }
+  role:
+    ja: 「with Covid-19から見通す東京2050 交通シミュレーション」担当
+    en: "In charge of \"Tokyo 2050 Traffic Simulation Seen Through With-Covid-19\""
+  link: https://marunouchi.g-mark.org/exhibition77.html
+- id: design-hub-6288
+  # year:
+  title:
+    ja: 東京ミッドタウン・デザインハブ 企画展
+    en: Tokyo Midtown Design Hub Exhibition
+  venue: { ja: 東京ミッドタウン・デザインハブ（東京・六本木）, en: "Tokyo Midtown Design Hub, Tokyo" }
+  # TODO: 担当内容を記載する
+  link: https://www.designhub.jp/exhibitions/6288

@@ -130,4 +130,25 @@ const patents = defineCollection({
   }),
 });
 
-export const collections = { profile, publications, patents };
+const exhibitions = defineCollection({
+  loader: file('./src/data/exhibitions.yaml', { parser: orderedYamlList }),
+  schema: z.strictObject({
+    id: z.string(),
+    /** YAML の記載順（parser が自動付与）。 */
+    order: z.number().int().nonnegative(),
+    problem: noProblem,
+    /** 並び順に使う年（不明なら省略。省略した項目は末尾に記載順で並ぶ）。 */
+    year: z.number().int().min(1900).max(2100).optional(),
+    /** 展示会名。 */
+    title: z.strictObject({ ja: z.string(), en: z.string().optional() }),
+    venue: localized.optional(),
+    /** 会期（自由記述。例: "2021年3月1日〜3月31日"）。 */
+    period: localized.optional(),
+    /** 担当した展示物・役割。 */
+    role: localized.optional(),
+    summary: localized.optional(),
+    link: z.url().optional(),
+  }),
+});
+
+export const collections = { profile, publications, patents, exhibitions };
