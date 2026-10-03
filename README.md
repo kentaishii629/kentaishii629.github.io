@@ -84,7 +84,7 @@ npm run check      # 型チェック（astro check）
   link: https://example.com/awards
 ```
 
-### 事業（`src/data/projects.yaml`）
+### 参画PJ（`src/data/projects.yaml`）
 
 `year`（参加開始年）の降順に並ぶ。`title.ja` と `year` 以外は任意。
 
