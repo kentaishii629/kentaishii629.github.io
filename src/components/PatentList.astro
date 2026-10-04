@@ -21,7 +21,12 @@ const noteLang = noteSource ? pickedLang(noteSource, lang) : lang;
 /** 詳細行。コンパクトにするため公開番号だけを出す（出願国・日付・出願人は YAML に残すが表示しない）。 */
 function details(data: CollectionEntry<'patents'>['data']) {
   const rows: { label: string; value: string; lang?: Lang }[] = [];
-  if (data.number) rows.push({ label: dict.patents.number, value: data.number });
+  if (data.number) {
+    rows.push({
+      label: data.status === 'granted' ? dict.patents.patentNumber : dict.patents.number,
+      value: lang === 'en' ? (data.numberEn ?? data.number) : data.number,
+    });
+  }
   return rows;
 }
 ---

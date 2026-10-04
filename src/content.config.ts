@@ -134,8 +134,10 @@ const patents = defineCollection({
     year: z.number().int().min(1900).max(2100),
     status: z.enum(['granted', 'pending']).optional(),
     title: z.strictObject({ ja: z.string(), en: z.string().optional() }),
-    /** 公開番号 / 登録番号。 */
+    /** 公開番号（出願中）または特許番号（登録済み）。 */
     number: z.string().optional(),
+    /** 英語ページ用の番号（省略時は number を使う）。 */
+    numberEn: z.string().optional(),
     jurisdictions: z.array(z.string().min(1)).optional(),
     priorityDate: isoDate.optional(),
     filedDate: isoDate.optional(),

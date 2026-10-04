@@ -3,9 +3,14 @@
 # inventors に含まれる本人名（profile.yaml の name）は自動で太字になる。
 # 日付は "YYYY-MM-DD"。link は Google Patents の公開情報ページ。
 # 件数サマリ（出願 / 登録）は profile.yaml の patentSummary を表示し、省略時はこのファイルから自動集計する。
-# TODO: 各件の登録/出願中の別（status）と共同発明者（inventors）を確認して追記する。
+# 名称・状態・番号は J-PlatPat で確認（2026-10-04 時点）。登録済みは number に特許番号、numberEn に英語ページ用の番号を書く。
+# 発明者は表示しない方針（本人の指示）なので inventors は書かない。確認した発明者（記載順）:
+#   特許第7751532号: 石井 健太、田中 英里香、松原 大輔 ／ 特許第7885103号: 石井 健太、平松 義崇
+#   特開2025-062957: 石井 健太、平松 義崇、望月 智之 ／ 特開2025-101114: 平松 義崇、石井 健太、吉治 季恵、沖田 英樹
+#   特開2025-173297: 松下 聖弥、大塚 理恵子、石井 健太、三田 仁士
 - id: jp2025173297a
   year: 2024
+  status: pending
   title:
     ja: 広告支援装置および広告支援方法
     en: Advertisement Support Device and Advertisement Support Method
@@ -21,8 +26,9 @@
   link: https://patents.google.com/patent/JP2025173297A
 - id: jp2025062957a
   year: 2023
+  status: pending
   title:
-    ja: 活動特徴抽出装置および活動特徴抽出方法
+    ja: 活動特徴抽出装置、及び活動特徴抽出方法
     en: Activity Feature Extraction Device and Activity Feature Extraction Method
   number: JP2025062957A
   jurisdictions: [JP]
@@ -36,8 +42,9 @@
   link: https://patents.google.com/patent/JP2025062957A
 - id: jp2025101114a
   year: 2023
+  status: pending
   title:
-    ja: 情報提供装置および情報提供方法
+    ja: 情報提供装置及び情報提供方法
     en: Information Providing Device and Information Providing Method
   number: JP2025101114A
   jurisdictions: [JP, EP]
@@ -51,10 +58,12 @@
   link: https://patents.google.com/patent/JP2025101114A
 - id: jp2023172113a
   year: 2022
+  status: granted
   title:
-    ja: 人流予測装置、人流予測プログラム、および人流予測方法
+    ja: 人流予測装置、人流予測プログラム、および、人流予測方法
     en: People Flow Prediction Device, People Flow Prediction Program, and People Flow Prediction Method
-  number: JP2023172113A
+  number: 特許第7751532号
+  numberEn: JP7751532B2
   jurisdictions: [JP, US, WO]
   priorityDate: "2022-05-23"
   filedDate: "2022-05-23"
@@ -66,10 +75,12 @@
   link: https://patents.google.com/patent/JP2023172113A
 - id: jp2024074614a
   year: 2022
+  status: granted
   title:
-    ja: 不動産開発計画支援装置、不動産開発計画支援方法
-    en: Real Estate Development Planning Support Device and Method
-  number: JP2024074614A
+    ja: 不動産開発計画支援装置、不動産開発計画支援プログラム、および、不動産開発計画支援方法
+    en: Real Estate Development Planning Support Device, Program, and Method
+  number: 特許第7885103号
+  numberEn: JP7885103B2
   jurisdictions: [JP]
   priorityDate: "2022-11-21"
   filedDate: "2022-11-21"

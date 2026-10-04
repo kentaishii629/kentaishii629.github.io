@@ -52,6 +52,7 @@ export const ja = {
     granted: '登録',
     pending: '出願中',
     number: '公開番号',
+    patentNumber: '特許番号',
     inventors: '発明者',
     link: '特許情報',
   },

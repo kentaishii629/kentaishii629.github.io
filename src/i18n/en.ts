@@ -54,6 +54,7 @@ export const en: Dictionary = {
     granted: 'Granted',
     pending: 'Pending',
     number: 'Publication No.',
+    patentNumber: 'Patent No.',
     inventors: 'Inventors',
     link: 'Patent record',
   },
