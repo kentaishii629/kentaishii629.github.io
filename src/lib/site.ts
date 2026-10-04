@@ -10,9 +10,13 @@ export function withBase(path: string): string {
   return `${BASE}${path.replace(/^\/+/, '')}`;
 }
 
-/** 言語トップのサイト内パス（末尾スラッシュ付き）。 */
+/**
+ * 言語トップのサイト内パス（末尾スラッシュ付き）。
+ * 日本語はサイトのトップ（/）そのもの、英語は /en/。
+ * トップを言語選択ページにすると検索エンジンに中身のないページとして扱われるため、日本語ページを直接置く。
+ */
 export function localePath(lang: Lang): string {
-  return withBase(`${lang}/`);
+  return lang === 'ja' ? BASE : withBase(`${lang}/`);
 }
 
 /** 絶対 URL（site 設定が必須）。 */

@@ -6,6 +6,7 @@ export const en: Dictionary = {
   htmlLang: 'en',
   ogLocale: 'en_US',
   meta: {
+    title: 'Kenta Ishii (石井 健太) | Urban & Transportation Analytics | Hitachi, UTokyo',
     description:
       'Research portfolio of Kenta Ishii, Senior Researcher at Hitachi, Ltd. and Ph.D. student at The University of Tokyo: pedestrian flow analysis, transportation network modeling, behavioral parameter estimation, causal inference, and machine learning for transportation. Publications, talks, awards, patents, projects, and exhibitions.',
   },
@@ -83,13 +84,5 @@ export const en: Dictionary = {
   footer: {
     rights: 'All rights reserved.',
     top: 'Back to top',
-  },
-  redirect: {
-    title: 'Choose language / 言語を選択',
-    description: 'Research portfolio of Kenta Ishii. Redirecting to the Japanese or English page.',
-    noscript: 'JavaScript is disabled, so automatic language detection is unavailable. Please use the links below.',
-    choose: 'Please choose a language.',
-    ja: '日本語',
-    en: 'English',
   },
 };

@@ -4,6 +4,8 @@ export const ja = {
   htmlLang: 'ja',
   ogLocale: 'ja_JP',
   meta: {
+    // 検索結果の見出し。同姓同名が多いので、名前（日英）に所属と専門分野を添える。
+    title: '石井 健太（Kenta Ishii）| 都市・交通解析 | 日立製作所・東京大学',
     description:
       '石井 健太（株式会社日立製作所 研究開発グループ 研究員 / 東京大学大学院 博士課程）の研究者ポートフォリオ。人流分析、交通ネットワークモデリング、行動パラメータ推定、因果推論、交通への機械学習応用に関する論文・発表、受賞、特許、参画PJ、展示を掲載。',
   },
@@ -81,13 +83,5 @@ export const ja = {
   footer: {
     rights: 'All rights reserved.',
     top: 'ページ上部へ',
-  },
-  redirect: {
-    title: '言語を選択 / Choose language',
-    description: '石井 健太の研究者ポートフォリオ。日本語または英語のページへ移動します。',
-    noscript: 'JavaScript が無効のため自動で振り分けできません。以下のリンクからお進みください。',
-    choose: '言語を選択してください。',
-    ja: '日本語',
-    en: 'English',
   },
 } as const;

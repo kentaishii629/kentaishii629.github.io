@@ -68,22 +68,36 @@ const projectEntries: Entry[] = (await getCollection('projects')).sort(byYearDes
 
 const selfVariants = selfNameVariants(profile.name);
 const name = pick(profile.name, lang);
-const pageTitle = `${name} — ${pick(profile.specialty, lang)}`;
 const path = localePath(lang);
+const pageUrl = absoluteUrl(path, Astro.site);
 
+// 検索エンジン向けの構造化データ。「この人物のプロフィールページ」であることと、所属・出身・外部プロフィールを伝える。
+const otherName = pick(profile.name, lang === 'ja' ? 'en' : 'ja');
+const orgs = profile.affiliations.map((a) => ({ '@type': 'Organization', name: pick(a.org ?? a, lang) }));
 const sameAs = Object.values(profile.links).filter(Boolean);
-const jsonLd = {
-  '@context': 'https://schema.org',
+const person = {
   '@type': 'Person',
   name,
-  alternateName: pick(profile.name, lang === 'ja' ? 'en' : 'ja'),
-  affiliation: profile.affiliations.map((a) => ({ '@type': 'Organization', name: pick(a.org ?? a, lang) })),
-  url: absoluteUrl(path, Astro.site),
+  // 空白なしの表記（例: 石井健太）でも検索されるので別名に含める
+  alternateName: [...new Set([otherName, (profile.name.ja ?? '').replace(/\s+/g, '')])].filter((n) => n && n !== name),
+  description: dict.meta.description,
+  knowsAbout: pick(profile.specialty, lang),
+  ...(orgs[0] ? { worksFor: orgs[0] } : {}),
+  affiliation: orgs,
+  url: pageUrl,
   ...(sameAs.length > 0 ? { sameAs } : {}),
+};
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  url: pageUrl,
+  name: dict.meta.title,
+  inLanguage: lang,
+  mainEntity: person,
 };
 ---
 
-<Base lang={lang} title={pageTitle} description={dict.meta.description} path={path} jsonLd={jsonLd}>
+<Base lang={lang} title={dict.meta.title} description={dict.meta.description} path={path} jsonLd={jsonLd}>
   <Header lang={lang} />
   <main id="main">
     <Hero lang={lang} profile={profile} />

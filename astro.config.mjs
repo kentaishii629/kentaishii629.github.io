@@ -13,16 +13,15 @@ export default defineConfig({
   i18n: {
     defaultLocale: 'ja',
     locales: ['ja', 'en'],
+    // 日本語（既定の言語）はドメイン直下（/）、英語は /en/。
     routing: {
-      prefixDefaultLocale: true,
-      // "/" は src/pages/index.astro で navigator.language に基づいて振り分けるため、自動リダイレクトは無効にする。
-      redirectToDefaultLocale: false,
+      prefixDefaultLocale: false,
     },
   },
   integrations: [
     sitemap({
-      // "/" は言語振り分け用ページなので除外し、/ja/ と /en/ を hreflang 付きで出力する。
-      filter: (page) => page !== `${site}/`,
+      // /ja/ はトップへの転送ページなので除外し、/ と /en/ を hreflang 付きで出力する。
+      filter: (page) => page !== `${site}/ja/`,
       i18n: {
         defaultLocale: 'ja',
         locales: { ja: 'ja-JP', en: 'en-US' },
